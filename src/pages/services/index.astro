@@ -1,0 +1,56 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/PageHero.astro';
+import CTA from '../../components/CTA.astro';
+import Icon from '../../components/Icon.astro';
+import SparkMark from '../../components/SparkMark.astro';
+import { services } from '../../data/services';
+
+const schema = [{
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  name: 'Flintora digital marketing services',
+  itemListElement: services.map((s, i) => ({ '@type': 'ListItem', position: i + 1, url: new URL(`/services/${s.slug}/`, Astro.site).href, name: s.name })),
+}];
+---
+<BaseLayout
+  title="Digital Marketing Services"
+  description="SEO, performance marketing, social media, content, branding and web development from Flintora. One strategy across every channel, measured against revenue."
+  schema={schema}
+>
+  <PageHero
+    eyebrow="Services"
+    lines={['Every channel,', 'one strategy.']}
+    lead="Pick one service or combine them. Either way, everything is planned around the same goals and reported in the same place."
+    crumbs={[{ label: 'Services', href: '/services/' }]}
+  />
+  <section class="section">
+    <div class="container svc-grid">
+      {services.map((s, i) => (
+        <a href={`/services/${s.slug}/`} class="card svc-card" data-reveal data-tilt="6" style={`--d:${(i % 3) * 0.08}s`}>
+          <span class="glare" aria-hidden="true"></span>
+          <div class="svc-card__top">
+            <span class="num">{String(i + 1).padStart(2, '0')}</span>
+            <SparkMark class="svc-card__mark" mono />
+          </div>
+          <h2 class="h3">{s.name}</h2>
+          <p class="muted">{s.short}</p>
+          <ul class="svc-card__tags">
+            {s.includes.slice(0, 3).map((x) => <li class="pill">{x.title}</li>)}
+          </ul>
+          <span class="link-arrow">Explore <Icon name="arrow" /></span>
+        </a>
+      ))}
+    </div>
+  </section>
+  <CTA lines={['Not sure', 'where to start.']} text="Book a free call. We will look at where you are today and tell you which service would move the needle first." />
+</BaseLayout>
+<style>
+  .svc-grid { display: grid; gap: 1.5rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr)); }
+  .svc-card { display: flex; flex-direction: column; gap: 1rem; }
+  .svc-card__top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem; }
+  .svc-card__mark { width: 26px; color: rgba(255,255,255,.12); transition: color .4s, transform .6s var(--ease); }
+  .svc-card:hover .svc-card__mark { color: var(--spark); transform: rotate(-12deg) scale(1.2); }
+  .svc-card__tags { display: flex; flex-wrap: wrap; gap: .5rem; list-style: none; padding: 0; margin: 0 0 .5rem; }
+  .svc-card .link-arrow { margin-top: auto; }
+</style>

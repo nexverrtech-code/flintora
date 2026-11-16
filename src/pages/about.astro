@@ -1,0 +1,100 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import SplitHeading from '../components/SplitHeading.astro';
+import FlintScene from '../components/FlintScene.astro';
+import CTA from '../components/CTA.astro';
+
+const values = [
+  { title: 'Clarity over noise', text: 'Plain language, honest forecasts and reports that show what happened, good or bad.' },
+  { title: 'Ideas with a job', text: 'Creative work earns its place by moving a number we agreed on.' },
+  { title: 'Speed with care', text: 'We move quickly, test constantly and never cut corners on tracking, brand or compliance.' },
+  { title: 'Your assets, your data', text: 'Ad accounts, analytics and content belong to you. Always.' },
+];
+const principles = [
+  { title: 'One strategy', text: 'SEO, paid, social, content, brand and web planned together, so every channel pulls the same way.' },
+  { title: 'Measured to revenue', text: 'Tracking is set up before launch, and every report connects activity to leads, sales and revenue.' },
+  { title: 'Senior attention', text: 'The people who plan your strategy stay involved in delivering it.' },
+];
+---
+<BaseLayout
+  title="About Us"
+  description="Flintora is a digital marketing agency built on one idea: the right spark, in the right place, creates momentum. Meet the approach behind the work."
+>
+  <PageHero
+    eyebrow="About"
+    lines={['Built to', 'create momentum.']}
+    lead="Flintora drives digital marketing for forward thinking brands. We exist to make marketing feel less like guesswork and more like ignition."
+    crumbs={[{ label: 'About', href: '/about/' }]}
+  />
+
+  <section class="section">
+    <div class="container split story">
+      <div>
+        <p class="eyebrow" data-reveal>Our story</p>
+        <SplitHeading lines={['Why', 'Flintora.']} />
+      </div>
+      <div data-reveal>
+        <p class="lead">Flint does nothing on its own. Strike it at the right angle and it throws a spark that can start something much bigger.</p>
+        <p class="muted">We named the agency after that moment. Good marketing works the same way: a sharp idea, aimed at the right audience, at the right time. Our job is to find that angle, strike it, and keep the fire going with steady, measurable work.</p>
+        <p class="muted">We work with brands that want growth they can see in their numbers, and with teams who value straight answers over jargon.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section--tight">
+    <div class="container">
+      <p class="eyebrow" data-reveal>How we are different</p>
+      <div class="grid grid-3">
+        {principles.map((p, i) => (
+          <article class="card" data-reveal data-tilt="6" style={`--d:${i * 0.1}s`}>
+            <span class="glare" aria-hidden="true"></span>
+            <span class="num">{String(i + 1).padStart(2, '0')}</span>
+            <h2 class="h3 t">{p.title}</h2>
+            <p class="muted">{p.text}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <FlintScene eyebrow="Our mark" lines={['One mark.', 'Every surface.']}>
+    <p class="lead">The Flintora F is drawn as a spark: two sharp shards with a forward slant that signals momentum.</p>
+    <p class="muted">Wide, extended letterforms make the name feel established and trusted. Void Black gives depth; Primary Spark, Solar Flare and Ember Depth bring the energy.</p>
+    <ul class="swatches" aria-label="Brand colours">
+      <li><span style="background:#040404;border:1px solid var(--line-strong)"></span>Void Black</li>
+      <li><span style="background:#FF800D"></span>Primary Spark</li>
+      <li><span style="background:#FFA912"></span>Solar Flare</li>
+      <li><span style="background:#FF9810"></span>Ember Depth</li>
+    </ul>
+  </FlintScene>
+
+  <section class="section">
+    <div class="container split values">
+      <div>
+        <p class="eyebrow" data-reveal>Values</p>
+        <SplitHeading lines={['What we', 'stand for.']} />
+      </div>
+      <dl class="vals">
+        {values.map((v) => (
+          <div data-reveal>
+            <dt class="h3">{v.title}</dt>
+            <dd class="muted">{v.text}</dd>
+          </div>
+        ))}
+      </dl>
+    </div>
+  </section>
+
+  <CTA lines={['Let us find', 'your spark.']} />
+</BaseLayout>
+<style>
+  .story, .values { align-items: start; }
+  .t { margin: 1.25rem 0 .6rem; }
+  .swatches { list-style: none; padding: 0; margin: 1.5rem 0 0; display: grid; grid-template-columns: repeat(2, 1fr); gap: .75rem; font-size: .9rem; color: var(--muted); }
+  .swatches li { display: flex; align-items: center; gap: .6rem; }
+  .swatches span { width: 28px; height: 28px; border-radius: 6px; flex: none; }
+  .vals { margin: 0; display: grid; gap: 0; border-top: 1px solid var(--line); }
+  .vals > div { padding: 1.5rem 0; border-bottom: 1px solid var(--line); }
+  .vals dd { margin: .4rem 0 0; }
+</style>

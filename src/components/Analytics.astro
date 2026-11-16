@@ -1,0 +1,55 @@
+---
+// Google Analytics 4 with a consent banner. Renders nothing unless PUBLIC_GA_ID is set.
+// GA only loads after the visitor accepts; the choice is stored in localStorage.
+import { site } from '../data/site';
+const id = site.gaId;
+---
+{id && (
+  <>
+    <div class="consent" data-consent hidden role="region" aria-label="Cookie consent">
+      <p>We use analytics cookies to understand how the site is used. You can accept or decline. See our <a href="/privacy-policy/">privacy policy</a>.</p>
+      <div class="consent__actions">
+        <button type="button" class="btn btn--ghost" data-consent-no>Decline</button>
+        <button type="button" class="btn" data-consent-yes>Accept</button>
+      </div>
+    </div>
+    <script is:inline define:vars={{ id }}>
+      (function () {
+        var KEY = 'flintora-consent';
+        var box = document.querySelector('[data-consent]');
+        function load() {
+          var s = document.createElement('script');
+          s.async = true;
+          s.src = 'https://www.googletagmanager.com/gtag/js?id=' + id;
+          document.head.appendChild(s);
+          window.dataLayer = window.dataLayer || [];
+          window.gtag = function () { window.dataLayer.push(arguments); };
+          window.gtag('js', new Date());
+          window.gtag('config', id, { anonymize_ip: true });
+        }
+        var v = null;
+        try { v = localStorage.getItem(KEY); } catch (e) {}
+        if (v === 'yes') return load();
+        if (v === 'no') return;
+        box.hidden = false;
+        function set(val) {
+          try { localStorage.setItem(KEY, val); } catch (e) {}
+          box.hidden = true;
+          if (val === 'yes') load();
+        }
+        box.querySelector('[data-consent-yes]').addEventListener('click', function () { set('yes'); });
+        box.querySelector('[data-consent-no]').addEventListener('click', function () { set('no'); });
+      })();
+    </script>
+  </>
+)}
+<style>
+  .consent {
+    position: fixed; left: 1rem; right: 1rem; bottom: 1rem; z-index: 150; max-width: 520px;
+    padding: 1.25rem; background: var(--surface-2); border: 1px solid var(--line-strong); border-radius: var(--radius);
+    box-shadow: 0 20px 60px rgba(0,0,0,.6); font-size: 0.9rem;
+  }
+  .consent a { color: var(--spark); text-decoration: underline; }
+  .consent__actions { display: flex; gap: 0.75rem; justify-content: flex-end; }
+  .consent .btn { min-height: 42px; padding: 0.5rem 1.1rem; }
+</style>

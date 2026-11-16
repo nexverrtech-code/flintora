@@ -1,0 +1,84 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/PageHero.astro';
+import SplitHeading from '../../components/SplitHeading.astro';
+import CTA from '../../components/CTA.astro';
+import Icon from '../../components/Icon.astro';
+import { playbooks, type Playbook } from '../../data/playbooks';
+import { getService } from '../../data/services';
+
+export function getStaticPaths() {
+  return playbooks.map((playbook) => ({ params: { slug: playbook.slug }, props: { playbook } }));
+}
+const { playbook } = Astro.props as { playbook: Playbook };
+const svc = playbook.services.map(getService).filter((s) => !!s);
+const words = playbook.title.split(' ');
+const mid = Math.ceil(words.length / 2);
+const schema = [{
+  '@context': 'https://schema.org',
+  '@type': 'HowTo',
+  name: playbook.title.replace(/\.$/, ''),
+  description: playbook.metaDescription,
+  step: playbook.moves.map((m, i) => ({ '@type': 'HowToStep', position: i + 1, name: m.title, text: m.text })),
+}];
+---
+<BaseLayout title={`${playbook.title.replace(/\.$/, '')} Playbook`} description={playbook.metaDescription} schema={schema}>
+  <PageHero
+    eyebrow={playbook.sector}
+    lines={[words.slice(0, mid).join(' '), words.slice(mid).join(' ')]}
+    lead={playbook.summary}
+    crumbs={[{ label: 'Playbooks', href: '/playbooks/' }, { label: playbook.sector, href: `/playbooks/${playbook.slug}/` }]}
+  />
+
+  <section class="section">
+    <div class="container split situation">
+      <div>
+        <p class="eyebrow" data-reveal>The situation</p>
+        <SplitHeading lines={['Where most', 'brands start.']} />
+      </div>
+      <p class="lead" data-reveal>{playbook.situation}</p>
+    </div>
+  </section>
+
+  <section class="section--tight">
+    <div class="container">
+      <p class="eyebrow" data-reveal>The moves</p>
+      <ol class="moves">
+        {playbook.moves.map((m, i) => (
+          <li class="move" data-reveal>
+            <span class="move__n" data-parallax="-0.1">{String(i + 1).padStart(2, '0')}</span>
+            <div>
+              <h2 class="h3">{m.title}</h2>
+              <p class="muted">{m.text}</p>
+            </div>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container grid grid-2">
+      <div class="card" data-reveal>
+        <p class="eyebrow">What we measure</p>
+        <ul class="check-list">{playbook.measures.map((m) => <li>{m}</li>)}</ul>
+      </div>
+      <div class="card" data-reveal style="--d:.1s">
+        <p class="eyebrow">Services involved</p>
+        <ul class="svc-links">
+          {svc.map((s) => <li><a href={`/services/${s!.slug}/`} class="link-arrow">{s!.name} <Icon name="arrow" /></a></li>)}
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <CTA lines={['Run this', 'playbook.']} text="We will adapt it to your market, budget and goals, and show you what the first ninety days would look like." />
+</BaseLayout>
+<style>
+  .situation { align-items: start; }
+  .moves { list-style: none; padding: 0; margin: 0; border-top: 1px solid var(--line); }
+  .move { display: grid; grid-template-columns: minmax(70px, 160px) 1fr; gap: 1.5rem; align-items: center; padding: 2rem 0; border-bottom: 1px solid var(--line); }
+  .move__n { font-family: var(--font-display); font-size: clamp(2.5rem, 2rem + 3vw, 5rem); line-height: 1; color: var(--spark); }
+  .move p { margin: .4rem 0 0; }
+  .svc-links { list-style: none; padding: 0; margin: 0; display: grid; gap: .9rem; }
+</style>

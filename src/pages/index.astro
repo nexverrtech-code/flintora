@@ -1,0 +1,210 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero3D from '../components/Hero3D.astro';
+import Marquee from '../components/Marquee.astro';
+import SplitHeading from '../components/SplitHeading.astro';
+import FlintScene from '../components/FlintScene.astro';
+import ProcessScroll from '../components/ProcessScroll.astro';
+import FAQ from '../components/FAQ.astro';
+import CTA from '../components/CTA.astro';
+import Icon from '../components/Icon.astro';
+import { site } from '../data/site';
+import { services } from '../data/services';
+import { playbooks } from '../data/playbooks';
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('blog', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  .slice(0, 3);
+
+const pillars = [
+  { title: 'Innovative', text: 'We look for the sharper angle: the message, channel or format your competitors have not tried yet.' },
+  { title: 'Dynamic', text: 'Weekly optimisation, fast decisions and budgets that move toward whatever is working now.' },
+  { title: 'Scalable', text: 'Systems, not one off wins. Every campaign leaves behind data, assets and playbooks you keep.' },
+];
+
+const steps = [
+  { title: 'Discover', text: 'We learn your business, customers, numbers and competitors before we recommend anything.' },
+  { title: 'Strategise', text: 'A clear plan that names the channels, the budget, the targets and who does what.' },
+  { title: 'Ignite', text: 'Campaigns, content and pages launch fast, with tracking in place from day one.' },
+  { title: 'Optimise', text: 'Weekly tests and reviews. What works gets more budget, what does not gets cut.' },
+  { title: 'Scale', text: 'Proven channels grow, new ones get tested and your marketing compounds.' },
+];
+
+const faqs = [
+  { q: 'What kind of businesses does Flintora work with?', a: 'Forward thinking brands that want measurable growth, from new D2C and ecommerce brands to B2B companies, local businesses and established brands ready for a refresh.' },
+  { q: 'Do we have to sign a long contract?', a: 'No. Most engagements start with a focused first phase so you can judge the work before committing further. Ongoing retainers run month to month after an initial period we agree together.' },
+  { q: 'How do you report on results?', a: 'Every client gets a live dashboard and a regular review that connects marketing activity to leads, sales and revenue, not just impressions and clicks.' },
+  { q: 'Can you work alongside our in house team?', a: 'Yes. We can run everything, fill specific gaps or coach your team, whichever gets you to the goal fastest.' },
+  { q: 'How quickly can we start?', a: 'Usually within two weeks of the first call. We begin with discovery and an audit, then share a plan before any spend goes live.' },
+];
+---
+<BaseLayout title={site.name} description={site.description}>
+  <Hero3D />
+
+  <Marquee items={['SEO', 'Performance', 'Social', 'Content', 'Branding', 'Web']} />
+
+  <!-- Intro -->
+  <section class="section" id="intro">
+    <div class="container split">
+      <div>
+        <p class="eyebrow" data-reveal>The brief</p>
+        <SplitHeading lines={['Igniting', 'digital growth.']} />
+      </div>
+      <div data-reveal style="--d:.15s">
+        <p class="lead">
+          Most marketing fails quietly: a little spend here, a few posts there, and no clear line back to revenue. We do it differently.
+        </p>
+        <p class="muted">
+          Flintora plans and runs digital marketing for forward thinking brands. One strategy connects every channel, every campaign is tracked from first click to sale, and every month you see exactly what your budget delivered.
+        </p>
+        <a href="/about/" class="link-arrow">How we work <Icon name="arrow" /></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pillars -->
+  <section class="section--tight">
+    <div class="container grid grid-3">
+      {pillars.map((p, i) => (
+        <article class="card pillar" data-reveal data-tilt="6" style={`--d:${i * 0.1}s`}>
+          <span class="glare" aria-hidden="true"></span>
+          <span class="num">{String(i + 1).padStart(2, '0')}</span>
+          <h3 class="h3">{p.title}</h3>
+          <p class="muted">{p.text}</p>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <!-- Services -->
+  <section class="section" aria-labelledby="services-title">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow" data-reveal>Services</p>
+          <div id="services-title"><SplitHeading lines={['Every channel.', 'One strategy.']} /></div>
+        </div>
+        <a href="/services/" class="btn btn--ghost" data-reveal>All services <Icon name="arrow" /></a>
+      </div>
+      <ul class="svc-list">
+        {services.map((s, i) => (
+          <li data-reveal style={`--d:${(i % 3) * 0.06}s`}>
+            <a href={`/services/${s.slug}/`} class="svc-row">
+              <span class="svc-row__n">{String(i + 1).padStart(2, '0')}</span>
+              <span class="svc-row__name">{s.name}</span>
+              <span class="svc-row__text muted">{s.short}</span>
+              <span class="svc-row__icon"><Icon name="arrow" /></span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <FlintScene eyebrow="The idea" lines={['The F is', 'a spark.']}>
+    <p class="lead">Flint makes fire by striking. That is how we think about marketing: the right idea, hitting the right audience, at the right moment.</p>
+    <ul class="check-list muted">
+      <li>The campaign starts with a clear idea, not a channel.</li>
+      <li>Forward momentum, measured every week.</li>
+      <li>Work that looks established, authoritative and trusted.</li>
+    </ul>
+  </FlintScene>
+
+  <ProcessScroll eyebrow="Process" lines={['From spark', 'to scale.']} steps={steps} />
+
+  <!-- Playbooks -->
+  <section class="section" aria-labelledby="pb-title">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow" data-reveal>Playbooks</p>
+          <div id="pb-title"><SplitHeading lines={['Proven paths', 'to growth.']} /></div>
+        </div>
+        <a href="/playbooks/" class="btn btn--ghost" data-reveal>All playbooks <Icon name="arrow" /></a>
+      </div>
+      <div class="grid grid-2">
+        {playbooks.map((p, i) => (
+          <a href={`/playbooks/${p.slug}/`} class="card pb-card" data-reveal data-tilt="5" style={`--d:${(i % 2) * 0.1}s`}>
+            <span class="glare" aria-hidden="true"></span>
+            <span class="pill">{p.sector}</span>
+            <h3 class="pb-card__title">{p.title}</h3>
+            <p class="muted">{p.summary}</p>
+            <span class="link-arrow">Read the playbook <Icon name="arrow" /></span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Insights -->
+  <section class="section" aria-labelledby="ins-title">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow" data-reveal>Insights</p>
+          <div id="ins-title"><SplitHeading lines={['Notes from', 'the forge.']} /></div>
+        </div>
+        <a href="/blog/" class="btn btn--ghost" data-reveal>All articles <Icon name="arrow" /></a>
+      </div>
+      <div class="grid grid-3">
+        {posts.map((post, i) => (
+          <a href={`/blog/${post.id}/`} class="card post-card" data-reveal style={`--d:${i * 0.08}s`}>
+            <span class="pill">{post.data.category}</span>
+            <h3 class="h3">{post.data.title}</h3>
+            <p class="muted small">{post.data.description}</p>
+            <span class="post-card__meta">
+              <time datetime={post.data.date.toISOString()}>{post.data.date.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}</time>
+              · {post.data.readingTime} min read
+            </span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="section" aria-labelledby="faq-title">
+    <div class="container split faq-split">
+      <div>
+        <p class="eyebrow" data-reveal>FAQ</p>
+        <div id="faq-title"><SplitHeading lines={['Questions,', 'answered.']} /></div>
+      </div>
+      <FAQ items={faqs} />
+    </div>
+  </section>
+
+  <CTA />
+</BaseLayout>
+
+<style>
+  .section-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 1.5rem; margin-bottom: clamp(2rem, 1rem + 3vw, 3.5rem); }
+  .pillar .num { display: block; margin-bottom: 1.5rem; }
+  .pillar .h3 { margin-bottom: 0.75rem; }
+
+  .svc-list { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line); }
+  .svc-list li { border-bottom: 1px solid var(--line); }
+  .svc-row { position: relative; display: grid; grid-template-columns: 60px minmax(0, 1.1fr) minmax(0, 1.4fr) 48px; gap: 1.5rem; align-items: center; padding: 1.75rem 0.5rem; isolation: isolate; }
+  .svc-row::before { content: ''; position: absolute; inset: 0; z-index: -1; background: linear-gradient(90deg, rgba(255,128,13,.12), transparent 70%); transform: scaleY(0); transform-origin: bottom; transition: transform .5s var(--ease); }
+  .svc-row:hover::before { transform: scaleY(1); }
+  .svc-row__n { font-family: var(--font-display); color: var(--spark); }
+  .svc-row__name { font-weight: 600; font-size: var(--step-1); line-height: 1.25; transition: transform .5s var(--ease); }
+  .svc-row:hover .svc-row__name { transform: translateX(10px); }
+  .svc-row__text { font-size: 0.95rem; }
+  .svc-row__icon { width: 48px; height: 48px; border-radius: 50%; border: 1px solid var(--line-strong); display: grid; place-items: center; transition: background .4s, color .4s, transform .5s var(--ease); }
+  .svc-row__icon :global(svg) { width: 18px; height: 18px; }
+  .svc-row:hover .svc-row__icon { background: var(--spark); color: var(--void); border-color: var(--spark); transform: rotate(45deg); }
+  @media (max-width: 800px) {
+    .svc-row { grid-template-columns: 40px 1fr 40px; }
+    .svc-row__text { grid-column: 2 / 3; grid-row: 2; }
+    .svc-row__icon { grid-column: 3; grid-row: 1; width: 40px; height: 40px; }
+  }
+
+  .pb-card { display: flex; flex-direction: column; gap: 1rem; align-items: flex-start; min-height: 300px; }
+  .pb-card__title { font-family: var(--font-display); text-transform: uppercase; font-size: var(--step-2); line-height: 1.05; margin-top: auto; }
+  .post-card { display: flex; flex-direction: column; gap: 1rem; align-items: flex-start; }
+  .post-card .h3 { font-size: 1.15rem; }
+  .small { font-size: 0.92rem; }
+  .post-card__meta { margin-top: auto; font-size: 0.82rem; color: var(--dim); }
+  .faq-split { align-items: start; }
+</style>

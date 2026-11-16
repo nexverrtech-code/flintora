@@ -1,0 +1,51 @@
+---
+import '../styles/global.css';
+import SEO, { type SEOProps } from '../components/SEO.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import Analytics from '../components/Analytics.astro';
+import WhatsAppButton from '../components/WhatsAppButton.astro';
+
+type Props = SEOProps & { preloadImage?: string };
+const { preloadImage, ...seo } = Astro.props;
+---
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#040404" />
+    <meta name="color-scheme" content="dark" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <link rel="alternate" type="application/rss+xml" title="Flintora Insights" href="/rss.xml" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <link rel="preload" href="/fonts/konexy.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/sora-light.woff2" as="font" type="font/woff2" crossorigin />
+    {preloadImage && <link rel="preload" href={preloadImage} as="image" fetchpriority="high" />}
+    <SEO {...seo} />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <div class="page-progress" data-page-progress aria-hidden="true"></div>
+    <Header />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer />
+    <WhatsAppButton />
+    <Analytics />
+    <script>
+      import '../scripts/motion';
+    </script>
+  </body>
+</html>
+
+<style is:global>
+  .page-progress {
+    position: fixed; top: 0; left: 0; right: 0; height: 2px; z-index: 120;
+    background: linear-gradient(90deg, var(--spark), var(--flare));
+    transform-origin: left; transform: scaleX(0);
+  }
+</style>

@@ -1,0 +1,21 @@
+---
+import { site } from '../data/site';
+import Icon from './Icon.astro';
+const href = site.whatsapp
+  ? `https://wa.me/${site.whatsapp}?text=${encodeURIComponent('Hi Flintora, I would like to talk about a project.')}`
+  : '';
+---
+{href && (
+  <a class="wa" href={href} target="_blank" rel="noopener" aria-label="Chat with Flintora on WhatsApp">
+    <Icon name="whatsapp" />
+  </a>
+)}
+<style>
+  .wa {
+    position: fixed; right: 1.25rem; bottom: 1.25rem; z-index: 90; width: 56px; height: 56px;
+    display: grid; place-items: center; border-radius: 50%; background: var(--spark); color: var(--void);
+    box-shadow: 0 10px 30px -8px rgba(255,128,13,.7); transition: transform .4s var(--ease);
+  }
+  .wa:hover { transform: scale(1.08) rotate(-6deg); }
+  .wa :global(svg) { width: 26px; height: 26px; }
+</style>

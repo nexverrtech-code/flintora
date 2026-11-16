@@ -1,0 +1,116 @@
+---
+import Logo from './Logo.astro';
+import Icon from './Icon.astro';
+import { nav } from '../data/site';
+const path = Astro.url.pathname;
+const isActive = (href: string) => path === href || (href !== '/' && path.startsWith(href));
+---
+<header class="site-header" data-header>
+  <div class="container site-header__inner">
+    <Logo />
+    <nav class="nav" aria-label="Main">
+      <ul>
+        {nav.map((item) => (
+          <li><a href={item.href} aria-current={isActive(item.href) ? 'page' : undefined}>{item.label}</a></li>
+        ))}
+      </ul>
+    </nav>
+    <a href="/contact/" class="btn header-cta">Start a project <Icon name="arrow" /></a>
+    <button class="menu-btn" type="button" aria-expanded="false" aria-controls="mobile-menu" data-menu-btn>
+      <span class="sr-only">Open menu</span>
+      <Icon name="menu" class="menu-btn__open" />
+      <Icon name="close" class="menu-btn__close" />
+    </button>
+  </div>
+  <div class="mobile-menu" id="mobile-menu" data-menu hidden>
+    <nav class="container" aria-label="Mobile">
+      <ul>
+        {nav.map((item, i) => (
+          <li style={`--i:${i}`}><a href={item.href} aria-current={isActive(item.href) ? 'page' : undefined}>{item.label}</a></li>
+        ))}
+      </ul>
+      <a href="/contact/" class="btn">Start a project <Icon name="arrow" /></a>
+    </nav>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    position: fixed;
+    inset: 0 0 auto 0;
+    z-index: 100;
+    height: var(--header-h);
+    display: flex;
+    align-items: center;
+    transition: background 0.4s, border-color 0.4s, transform 0.5s var(--ease);
+    border-bottom: 1px solid transparent;
+  }
+  .site-header.is-scrolled {
+    background: rgba(4, 4, 4, 0.78);
+    backdrop-filter: blur(14px) saturate(140%);
+    -webkit-backdrop-filter: blur(14px) saturate(140%);
+    border-color: var(--line);
+  }
+  .site-header.is-hidden { transform: translateY(-100%); }
+  .site-header__inner { display: flex; align-items: center; gap: 2rem; }
+  .nav { margin-left: auto; }
+  .nav ul { display: flex; gap: 2rem; list-style: none; margin: 0; padding: 0; }
+  .nav a { font-size: 0.95rem; color: var(--muted); position: relative; padding: 0.5rem 0; transition: color 0.3s; }
+  .nav a::after {
+    content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 2px;
+    background: var(--spark); transform: scaleX(0); transform-origin: right; transition: transform 0.4s var(--ease);
+  }
+  .nav a:hover, .nav a[aria-current='page'] { color: var(--text); }
+  .nav a:hover::after, .nav a[aria-current='page']::after { transform: scaleX(1); transform-origin: left; }
+  .header-cta { min-height: 44px; padding: 0.6rem 1.2rem; font-size: 0.9rem; }
+  .menu-btn {
+    display: none; margin-left: auto; width: 46px; height: 46px; border-radius: 50%;
+    border: 1px solid var(--line-strong); background: transparent; cursor: pointer; place-items: center;
+  }
+  /* Icons render inside the Icon component, so target them with :global */
+  .menu-btn :global(svg) { width: 22px; height: 22px; grid-area: 1 / 1; }
+  .menu-btn :global(.menu-btn__close) { display: none; }
+  .menu-btn[aria-expanded='true'] :global(.menu-btn__open) { display: none; }
+  .menu-btn[aria-expanded='true'] :global(.menu-btn__close) { display: block; }
+
+  .mobile-menu {
+    position: fixed; inset: var(--header-h) 0 0 0; background: var(--void);
+    padding-top: 2rem; overflow-y: auto;
+  }
+  .mobile-menu ul { list-style: none; padding: 0; margin: 0 0 2rem; }
+  .mobile-menu li { border-bottom: 1px solid var(--line); animation: menuIn 0.6s var(--ease) both; animation-delay: calc(var(--i) * 0.05s); }
+  .mobile-menu li a { display: block; padding: 1.1rem 0; font-family: var(--font-display); text-transform: uppercase; font-size: 1.6rem; letter-spacing: 0.03em; }
+  .mobile-menu li a[aria-current='page'] { color: var(--spark); }
+  @keyframes menuIn { from { opacity: 0; transform: translateY(16px); } }
+
+  @media (max-width: 960px) {
+    .nav, .header-cta { display: none; }
+    .menu-btn { display: grid; }
+  }
+</style>
+
+<script>
+  const header = document.querySelector<HTMLElement>('[data-header]')!;
+  const btn = document.querySelector<HTMLButtonElement>('[data-menu-btn]')!;
+  const menu = document.querySelector<HTMLElement>('[data-menu]')!;
+  let lastY = window.scrollY;
+  const onScroll = () => {
+    const y = window.scrollY;
+    header.classList.toggle('is-scrolled', y > 20);
+    const open = btn.getAttribute('aria-expanded') === 'true';
+    header.classList.toggle('is-hidden', !open && y > 400 && y > lastY);
+    lastY = y;
+  };
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+  const setOpen = (open: boolean) => {
+    btn.setAttribute('aria-expanded', String(open));
+    btn.querySelector('.sr-only')!.textContent = open ? 'Close menu' : 'Open menu';
+    menu.hidden = !open;
+    document.documentElement.style.overflow = open ? 'hidden' : '';
+    header.classList.toggle('is-scrolled', open || window.scrollY > 20);
+  };
+  btn.addEventListener('click', () => setOpen(btn.getAttribute('aria-expanded') !== 'true'));
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !menu.hidden) { setOpen(false); btn.focus(); } });
+  window.matchMedia('(min-width: 961px)').addEventListener('change', (e) => e.matches && setOpen(false));
+</script>

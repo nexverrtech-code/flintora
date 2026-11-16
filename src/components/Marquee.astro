@@ -1,0 +1,25 @@
+---
+import SparkMark from './SparkMark.astro';
+interface Props { items: string[] }
+const { items } = Astro.props;
+---
+<div class="marquee" aria-label={items.join(', ')} role="img">
+  <div class="marquee__track" data-parallax-x="-0.4" data-parallax="0">
+    {[0, 1].map(() => (
+      <div class="marquee__group" aria-hidden="true">
+        {items.map((t) => <span>{t}<SparkMark class="m-spark" /></span>)}
+      </div>
+    ))}
+  </div>
+</div>
+<style>
+  .marquee { overflow: hidden; border-block: 1px solid var(--line); padding: 1.4rem 0; }
+  .marquee__track { display: flex; width: max-content; }
+  .marquee__group { display: flex; animation: marquee 38s linear infinite; }
+  .marquee span { display: inline-flex; align-items: center; gap: 2.2rem; padding-right: 2.2rem; white-space: nowrap;
+    font-family: var(--font-display); text-transform: uppercase; font-size: clamp(1.4rem, 1rem + 2vw, 2.6rem); letter-spacing: .03em; }
+  .marquee span:nth-child(even) { color: transparent; -webkit-text-stroke: 1px rgba(255,255,255,.5); }
+  .marquee :global(.m-spark) { width: 20px; height: auto; }
+  .marquee:hover .marquee__group { animation-play-state: paused; }
+  @keyframes marquee { to { transform: translateX(-100%); } }
+</style>

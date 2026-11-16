@@ -1,0 +1,145 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/PageHero.astro';
+import SplitHeading from '../../components/SplitHeading.astro';
+import ProcessScroll from '../../components/ProcessScroll.astro';
+import FAQ from '../../components/FAQ.astro';
+import CTA from '../../components/CTA.astro';
+import Icon from '../../components/Icon.astro';
+import { services, type Service } from '../../data/services';
+import { playbooks } from '../../data/playbooks';
+import { site } from '../../data/site';
+
+export function getStaticPaths() {
+  return services.map((service) => ({ params: { slug: service.slug }, props: { service } }));
+}
+const { service } = Astro.props as { service: Service };
+const others = services.filter((s) => s.slug !== service.slug).slice(0, 3);
+const related = playbooks.filter((p) => p.services.includes(service.slug));
+const url = new URL(`/services/${service.slug}/`, Astro.site).href;
+const schema = [{
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  name: service.name,
+  serviceType: service.name,
+  description: service.metaDescription,
+  url,
+  provider: { '@id': new URL('/#organization', Astro.site).href, name: site.name },
+  hasOfferCatalog: {
+    '@type': 'OfferCatalog',
+    name: `${service.name} services`,
+    itemListElement: service.includes.map((x) => ({ '@type': 'Offer', itemOffered: { '@type': 'Service', name: x.title, description: x.text } })),
+  },
+}];
+const headlineWords = service.headline.split(' ');
+const mid = Math.ceil(headlineWords.length / 2);
+---
+<BaseLayout title={service.metaTitle} description={service.metaDescription} schema={schema}>
+  <PageHero
+    eyebrow={service.name}
+    lines={[headlineWords.slice(0, mid).join(' '), headlineWords.slice(mid).join(' ')]}
+    lead={service.intro}
+    crumbs={[{ label: 'Services', href: '/services/' }, { label: service.name, href: `/services/${service.slug}/` }]}
+  >
+    <div class="hero-actions" data-reveal style="--d:.35s">
+      <a href={`/contact/?service=${service.slug}`} class="btn" data-magnetic>Get a proposal <Icon name="arrow" /></a>
+    </div>
+  </PageHero>
+
+  <section class="section">
+    <div class="container split outcomes">
+      <div>
+        <p class="eyebrow" data-reveal>Outcomes</p>
+        <SplitHeading lines={['What you', 'can expect.']} />
+      </div>
+      <ul class="check-list outcome-list" data-reveal>
+        {service.outcomes.map((o) => <li>{o}</li>)}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section--tight">
+    <div class="container">
+      <p class="eyebrow" data-reveal>What is included</p>
+      <div class="grid grid-3">
+        {service.includes.map((x, i) => (
+          <article class="card" data-reveal data-tilt="5" style={`--d:${(i % 3) * 0.08}s`}>
+            <span class="glare" aria-hidden="true"></span>
+            <span class="num">{String(i + 1).padStart(2, '0')}</span>
+            <h2 class="h3 inc-title">{x.title}</h2>
+            <p class="muted">{x.text}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <ProcessScroll eyebrow="How it works" lines={['Our', 'process.']} steps={service.process} />
+
+  <section class="section--tight">
+    <div class="container split deliverables">
+      <div>
+        <p class="eyebrow" data-reveal>Deliverables</p>
+        <SplitHeading lines={['What you', 'receive.']} />
+      </div>
+      <ul class="deliv" data-reveal>
+        {service.deliverables.map((d) => <li>{d}</li>)}
+      </ul>
+    </div>
+  </section>
+
+  {related.length > 0 && (
+    <section class="section--tight">
+      <div class="container">
+        <p class="eyebrow" data-reveal>Used in these playbooks</p>
+        <div class="grid grid-2">
+          {related.map((p) => (
+            <a href={`/playbooks/${p.slug}/`} class="card rel" data-reveal>
+              <span class="pill">{p.sector}</span>
+              <h2 class="h3">{p.title}</h2>
+              <p class="muted">{p.summary}</p>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <section class="section">
+    <div class="container split faq-split">
+      <div>
+        <p class="eyebrow" data-reveal>FAQ</p>
+        <SplitHeading lines={['Common', 'questions.']} />
+      </div>
+      <FAQ items={service.faqs} />
+    </div>
+  </section>
+
+  <section class="section--tight">
+    <div class="container">
+      <p class="eyebrow" data-reveal>Other services</p>
+      <div class="grid grid-3">
+        {others.map((s) => (
+          <a href={`/services/${s.slug}/`} class="card other" data-reveal>
+            <h2 class="h3">{s.name}</h2>
+            <p class="muted">{s.short}</p>
+            <span class="link-arrow">Explore <Icon name="arrow" /></span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <CTA />
+</BaseLayout>
+<style>
+  .hero-actions { margin-top: 2rem; }
+  .outcomes, .deliverables, .faq-split { align-items: start; }
+  .outcome-list { font-size: var(--step-1); }
+  .inc-title { margin: 1.25rem 0 .6rem; }
+  .deliv { list-style: none; padding: 0; margin: 0; border-top: 1px solid var(--line); counter-reset: d; }
+  .deliv li { counter-increment: d; display: flex; gap: 1.25rem; align-items: baseline; padding: 1.1rem 0; border-bottom: 1px solid var(--line); font-size: var(--step-1); }
+  .deliv li::before { content: counter(d, decimal-leading-zero); font-family: var(--font-display); color: var(--spark); font-size: .9rem; }
+  .rel, .other { display: flex; flex-direction: column; gap: .9rem; align-items: flex-start; }
+  .other .link-arrow { margin-top: auto; }
+</style>

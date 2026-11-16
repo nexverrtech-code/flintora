@@ -1,0 +1,12 @@
+---
+// The Flintora "F spark" mark, redrawn as vector from the official logo.
+interface Props { class?: string; title?: string; mono?: boolean }
+const { class: cls = '', title, mono = false } = Astro.props;
+---
+<svg class={cls} viewBox="0 0 486 735" xmlns="http://www.w3.org/2000/svg" role={title ? 'img' : undefined} aria-hidden={title ? undefined : 'true'} aria-label={title}>
+  <path fill={mono ? 'currentColor' : '#FF800D'} d="M96 227 486 0 413 181 16 416z"/>
+  {!mono && <path fill="#FF9810" d="M16 416 376 125 413 181z"/>}
+  {!mono && <path fill="#FFA912" d="M486 0 413 181 376 125z"/>}
+  <path fill={mono ? 'currentColor' : '#FF800D'} d="M169 327 338 403 0 735z"/>
+  {!mono && <path fill="#FFA912" d="M291 385 338 403 0 735z"/>}
+</svg>

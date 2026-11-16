@@ -1,0 +1,43 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/PageHero.astro';
+import CTA from '../../components/CTA.astro';
+import Icon from '../../components/Icon.astro';
+import { playbooks } from '../../data/playbooks';
+---
+<BaseLayout
+  title="Growth Playbooks"
+  description="How Flintora approaches common growth challenges: launching a D2C brand, building a B2B lead engine, winning a local market and relaunching an established brand."
+>
+  <PageHero
+    eyebrow="Playbooks"
+    lines={['Proven paths', 'to growth.']}
+    lead="Every business is different, but the challenges repeat. These playbooks show how we approach the situations we see most often."
+    crumbs={[{ label: 'Playbooks', href: '/playbooks/' }]}
+  />
+  <section class="section">
+    <div class="container pb-list">
+      {playbooks.map((p, i) => (
+        <a href={`/playbooks/${p.slug}/`} class="pb" data-reveal>
+          <span class="pb__n" aria-hidden="true" data-parallax="-0.15">{String(i + 1).padStart(2, '0')}</span>
+          <div class="pb__body">
+            <span class="pill">{p.sector}</span>
+            <h2 class="h2">{p.title}</h2>
+            <p class="lead">{p.summary}</p>
+            <span class="link-arrow">Read the playbook <Icon name="arrow" /></span>
+          </div>
+        </a>
+      ))}
+    </div>
+  </section>
+  <CTA lines={['Your situation', 'is different.']} text="Tell us what you are facing. We will adapt the right playbook to your market, budget and goals." />
+</BaseLayout>
+<style>
+  .pb-list { display: grid; gap: 1.5rem; }
+  .pb { position: relative; display: grid; grid-template-columns: minmax(80px, 220px) 1fr; gap: 2rem; align-items: center; padding: clamp(1.5rem, 1rem + 3vw, 3.5rem); border: 1px solid var(--line); border-radius: calc(var(--radius) * 1.5); background: var(--surface); overflow: hidden; transition: border-color .4s; }
+  .pb:hover { border-color: rgba(255,128,13,.5); }
+  .pb__n { font-family: var(--font-display); font-size: clamp(4rem, 3rem + 6vw, 10rem); line-height: .8; color: transparent; -webkit-text-stroke: 1px rgba(255,128,13,.6); }
+  .pb__body { display: grid; gap: 1rem; justify-items: start; }
+  .pb__body .lead { margin: 0; }
+  @media (max-width: 700px) { .pb { grid-template-columns: 1fr; } .pb__n { font-size: 4rem; } }
+</style>

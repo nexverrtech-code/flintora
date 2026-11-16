@@ -1,0 +1,53 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/PageHero.astro';
+import CTA from '../../components/CTA.astro';
+import { getCollection } from 'astro:content';
+const posts = (await getCollection('blog', ({ data }) => !data.draft)).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+const fmt = (d: Date) => d.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+const schema = [{
+  '@context': 'https://schema.org',
+  '@type': 'Blog',
+  name: 'Flintora Insights',
+  url: new URL('/blog/', Astro.site).href,
+  blogPost: posts.map((p) => ({ '@type': 'BlogPosting', headline: p.data.title, url: new URL(`/blog/${p.id}/`, Astro.site).href, datePublished: p.data.date.toISOString() })),
+}];
+---
+<BaseLayout
+  title="Insights"
+  description="Practical articles on SEO, paid media, content, social and web performance from the Flintora team."
+  schema={schema}
+>
+  <PageHero
+    eyebrow="Insights"
+    lines={['Notes from', 'the forge.']}
+    lead="Practical thinking on search, paid media, content and the web. No fluff, just what we have learned doing the work."
+    crumbs={[{ label: 'Insights', href: '/blog/' }]}
+  />
+  <section class="section">
+    <div class="container posts">
+      {posts.map((post, i) => (
+        <a href={`/blog/${post.id}/`} class:list={['post', { 'post--lead': i === 0 }]} data-reveal>
+          <div class="post__meta">
+            <span class="pill">{post.data.category}</span>
+            <time datetime={post.data.date.toISOString()}>{fmt(post.data.date)}</time>
+            <span>{post.data.readingTime} min read</span>
+          </div>
+          <h2 class="post__title">{post.data.title}</h2>
+          <p class="muted">{post.data.description}</p>
+        </a>
+      ))}
+    </div>
+  </section>
+  <CTA />
+</BaseLayout>
+<style>
+  .posts { display: grid; border-top: 1px solid var(--line); }
+  .post { display: grid; gap: .75rem; padding: 2.25rem 0; border-bottom: 1px solid var(--line); transition: padding .5s var(--ease); }
+  .post:hover { padding-left: 1rem; }
+  .post__meta { display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; font-size: .85rem; color: var(--dim); }
+  .post__title { font-weight: 600; font-size: var(--step-2); line-height: 1.2; max-width: 30ch; transition: color .3s; }
+  .post:hover .post__title { color: var(--spark); }
+  .post--lead .post__title { font-size: var(--step-3); }
+  .post p { margin: 0; max-width: 70ch; }
+</style>

@@ -26,7 +26,6 @@ Node 22 or newer.
 | What | Where |
 | --- | --- |
 | Domain, verified email, phone, WhatsApp, enquiry form URL, address and social profiles | `frontend/.env` (copy `.env.example`). Anything left empty is hidden everywhere, including structured data. |
-| Budget Estimator rates | `frontend/src/data/pricing.ts`. The figures are **illustrative placeholders**. Replace them with FLINTORA's real rates, then set `ratesVerified = true` so the page wording changes. |
 | Team and leadership | `frontend/src/data/team.ts` (empty). Add real people with their approval; the About page and Person schema pick them up automatically. |
 | Testimonials | `frontend/src/data/testimonials.ts` (empty, hidden until filled). Genuine, approved quotes only. |
 | Client case studies | `frontend/src/data/projects.ts`. Add with `kind: 'client'`; only add `results` that the client has verified. |

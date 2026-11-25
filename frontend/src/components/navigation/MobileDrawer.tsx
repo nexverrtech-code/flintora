@@ -73,8 +73,7 @@ export function MobileDrawer({ open, onClose }: { open: boolean; onClose: () => 
                   </li>
                 ))}
               </ul>
-              <p className="eyebrow mt-10 mb-4 text-muted">Studio tools</p>
-              <ul className="space-y-1">
+              <ul className="mt-8 space-y-1">
                 {toolsNav.map((t) => (
                   <li key={t.to}>
                     <Link to={t.to} onClick={onClose} className="block py-2 text-lg text-soft hover:text-white">

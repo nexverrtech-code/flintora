@@ -17,7 +17,7 @@ import { cn } from '@/utils/cn';
 
 const faqs = [
   { q: 'Can we hire FLINTORA for just one service?', a: 'Yes. Many projects start with a single discipline, such as a brand identity or a website. Others combine several under one creative direction.' },
-  { q: 'How do you decide which services a project needs?', a: 'We start with your goals, not our service list. A short discovery conversation usually makes the right mix obvious. The Brand Transformation Studio on this site is a quick way to explore it yourself.' },
+  { q: 'How do you decide which services a project needs?', a: 'We start with your goals, not our service list. A short discovery conversation usually makes the right mix obvious.' },
   { q: 'Do you work with existing in-house teams?', a: 'Yes. We can lead, support or fill specific gaps, and we hand over files and documentation your team can use.' },
   { q: 'Where are you based and who do you work with?', a: 'We work with clients remotely and in person. Get in touch with your location and project and we will tell you how we can work together.' },
 ];
@@ -121,24 +121,18 @@ export default function CapabilitiesPage() {
         </div>
       </section>
 
-      {/* Two ways to explore */}
+      {/* Explore visually */}
       <section className="bg-paper text-ink">
-        <div className="shell section-y grid gap-6 md:grid-cols-2">
-          <Reveal className="flex flex-col justify-between gap-12 rounded-[1.25rem] bg-ink p-10 text-paper md:p-14">
-            <div>
+        <div className="shell section-y">
+          <Reveal className="grid items-end gap-10 rounded-[1.25rem] bg-ink p-8 text-paper md:grid-cols-12 md:p-14">
+            <div className="md:col-span-8">
               <Eyebrow>Explore visually</Eyebrow>
               <h2 className="display t-md mt-6">Creative Universe</h2>
-              <p className="mt-4 max-w-sm text-paper/70">See how every discipline connects to a single spark, then dive into the one that fits.</p>
+              <p className="mt-4 max-w-md text-paper/70">See how every discipline connects to a single spark, then dive into the one that fits.</p>
             </div>
-            <CtaLink to="/creative-universe">Enter the universe</CtaLink>
-          </Reveal>
-          <Reveal delay={0.1} className="flex flex-col justify-between gap-12 rounded-[1.25rem] border border-ink/15 p-10 md:p-14">
-            <div>
-              <Eyebrow className="text-[#a34b00]">Not sure where to start?</Eyebrow>
-              <h2 className="display t-md mt-6">Brand Studio</h2>
-              <p className="mt-4 max-w-sm text-ink/70">Answer six quick questions and get a transparent suggestion of the support that fits your situation.</p>
+            <div className="md:col-span-4 md:justify-self-end">
+              <CtaLink to="/creative-universe">Enter the universe</CtaLink>
             </div>
-            <CtaLink to="/brand-studio" variant="outlineDark">Try the Brand Studio</CtaLink>
           </Reveal>
         </div>
       </section>

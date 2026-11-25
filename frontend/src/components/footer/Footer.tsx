@@ -70,7 +70,7 @@ export function Footer() {
               </ul>
             </div>
             <div>
-              <h2 className="eyebrow mb-5 text-muted">Tools</h2>
+              <h2 className="eyebrow mb-5 text-muted">Explore</h2>
               <ul className="space-y-2.5 text-[0.92rem]">
                 {toolsNav.map((t) => (
                   <li key={t.to}><Link to={t.to} className="link-line text-soft hover:text-white">{t.label}</Link></li>

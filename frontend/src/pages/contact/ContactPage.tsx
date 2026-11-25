@@ -102,7 +102,7 @@ export default function ContactPage() {
             <p className="text-ink/70">Our guided project conversation takes about three minutes. You review everything before it goes anywhere.</p>
             <CtaLink to="/start-a-project" variant="dark" className="mt-8">Start a project</CtaLink>
             <p className="mt-6 text-[0.9rem] text-ink/60">
-              Not sure what you need? Try the <Link to="/brand-studio" className="link-line text-ink">Brand Transformation Studio</Link> or the <Link to="/growth-intelligence" className="link-line text-ink">Growth Intelligence tools</Link>.
+              Not sure what you need? Explore our disciplines in the <Link to="/creative-universe" className="link-line text-ink">Creative Universe</Link>.
             </p>
           </Reveal>
         </div>

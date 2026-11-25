@@ -6,15 +6,13 @@ import { company } from '@/data/company';
 export default function TermsPage() {
   return (
     <>
-      <Seo path="/terms" title="Terms and Conditions" description="Terms that apply to your use of the FLINTORA website and its free planning tools." breadcrumbs={[{ name: 'Terms and Conditions', path: '/terms' }]} />
+      <Seo path="/terms" title="Terms and Conditions" description="Terms that apply to your use of the FLINTORA website." breadcrumbs={[{ name: 'Terms and Conditions', path: '/terms' }]} />
       <LegalLayout title="Terms and Conditions" updated="25 November 2026" path="/terms">
         <p><em>This is a starting template. Please have it reviewed by a qualified adviser before launch.</em></p>
         <h2>Using this website</h2>
         <p>By using this website you agree to these terms. If you do not agree, please do not use the site.</p>
         <h2>Information on this site</h2>
         <p>Content on this site is general information about {company.name} and its services. It is not professional advice for your specific situation.</p>
-        <h2>Planning tools</h2>
-        <p>The Brand Transformation Studio, Digital Presence Assessment, Project Budget Estimator and Creative Brief Builder are free planning aids. Their outputs are indicative, generated from fixed rules and your answers. They are not audits, diagnoses or quotations, and no agreement is formed by using them.</p>
         <h2>Portfolio and concept studies</h2>
         <p>Projects labelled “Concept study” are self-initiated explorations for fictional brands. They are not client commissions and make no claims about results.</p>
         <h2>Intellectual property</h2>

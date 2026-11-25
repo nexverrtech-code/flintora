@@ -450,7 +450,7 @@ export const services: Service[] = [
     faqs: [
       { q: 'Is this only for large companies?', a: 'No. Small and mid-sized businesses often benefit most, because a few well-chosen changes make a visible difference quickly.' },
       { q: 'Do you implement or only advise?', a: 'Both. We can deliver the design, web and automation work ourselves or support your chosen partners.' },
-      { q: 'Where do we start?', a: 'Usually with a short assessment. Our free Digital Presence Assessment on this site is an informal first step.' },
+      { q: 'Where do we start?', a: 'Usually with a short assessment of where you are today across brand, digital and operations. Start a project and we will suggest the first step.' },
     ],
     categories: ['Technology', 'Websites'],
     layout: 'split',

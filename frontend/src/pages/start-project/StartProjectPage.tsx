@@ -10,7 +10,6 @@ import { Lines } from '@/components/common/Display';
 import { Button } from '@/components/ui/button';
 import { services, getService } from '@/data/services';
 import { company, industries, hasEnquiryChannel } from '@/data/company';
-import { storage, PROJECT_PREFILL_KEY, type ProjectPrefill } from '@/utils/storage';
 import { copyText, downloadText } from '@/utils/clipboard';
 import { cn } from '@/utils/cn';
 
@@ -75,7 +74,6 @@ export default function StartProjectPage() {
   const [params] = useSearchParams();
   const [step, setStep] = useState(0);
   const [note, setNote] = useState('');
-  const [prefillSource, setPrefillSource] = useState('');
   const heading = useRef<HTMLHeadingElement>(null);
 
   const form = useForm<FormValues>({
@@ -87,21 +85,10 @@ export default function StartProjectPage() {
   const errors = formState.errors;
   const selected = watch('services');
 
-  // Prefill from ?service= and from the planning tools (session only)
+  // Prefill the service from ?service= (used by the service pages)
   useEffect(() => {
     const svc = params.get('service');
-    const pre = storage.get<ProjectPrefill | null>(PROJECT_PREFILL_KEY, null, 'session');
-    const list = new Set<string>();
-    if (svc && getService(svc)) list.add(svc);
-    pre?.services?.forEach((s) => list.add(s));
-    if (list.size) setValue('services', [...list]);
-    if (pre?.description) setValue('description', pre.description);
-    if (pre?.industry && industries.includes(pre.industry)) setValue('industry', pre.industry);
-    if (pre?.timeline && timelines.includes(pre.timeline)) setValue('timeline', pre.timeline);
-    if (pre?.source) {
-      setPrefillSource({ 'brand-studio': 'Brand Transformation Studio', estimator: 'Budget Estimator', 'brief-builder': 'Creative Brief Builder' }[pre.source] ?? '');
-      storage.remove(PROJECT_PREFILL_KEY, 'session');
-    }
+    if (svc && getService(svc)) setValue('services', [svc]);
   }, [params, setValue]);
 
   const goto = (n: number) => {
@@ -171,11 +158,6 @@ export default function StartProjectPage() {
           </aside>
 
           <div className="lg:col-span-7 lg:col-start-6">
-            {prefillSource && !reviewing && (
-              <p className="mb-8 rounded-xl border border-flare/30 bg-flare/[0.06] p-4 text-[0.9rem] text-soft">
-                We brought across your answers from the <strong className="text-white">{prefillSource}</strong>. Edit anything you like.
-              </p>
-            )}
             <form
               noValidate
               onSubmit={handleSubmit(() => goto(3))}

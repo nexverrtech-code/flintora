@@ -6,8 +6,5 @@ export const primaryNav = [
   { label: 'Contact', to: '/contact' },
 ];
 
-export const toolsNav = [
-  { label: 'Creative Universe', to: '/creative-universe', note: 'Explore our disciplines around a single spark' },
-  { label: 'Brand Transformation Studio', to: '/brand-studio', note: 'Find out what kind of support you need' },
-  { label: 'Growth Intelligence', to: '/growth-intelligence', note: 'Assessment, budget estimator and brief builder' },
-];
+/** Interactive experiences. Shown as "Creative Universe" in the header. */
+export const toolsNav = [{ label: 'Creative Universe', to: '/creative-universe', note: 'Explore our disciplines around a single spark' }];

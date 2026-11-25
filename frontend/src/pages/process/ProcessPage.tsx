@@ -1,4 +1,3 @@
-import { useEffect, useRef, useState } from 'react';
 import { Seo } from '@/components/common/Seo';
 import { Breadcrumbs } from '@/components/common/Breadcrumbs';
 import { Eyebrow } from '@/components/common/Eyebrow';
@@ -9,7 +8,6 @@ import { MaskReveal } from '@/components/animation/MaskReveal';
 import { Reveal } from '@/components/animation/Reveal';
 import { stages } from '@/data/process';
 import { faqSchema } from '@/utils/schema';
-import { cn } from '@/utils/cn';
 
 const expectations = [
   { title: 'One point of contact', text: 'A named lead who knows your project end to end and answers your questions directly.' },
@@ -27,19 +25,6 @@ const faqs = [
 
 export default function ProcessPage() {
   const crumbs = [{ name: 'Process', path: '/process' }];
-  const [active, setActive] = useState(0);
-  const refs = useRef<(HTMLLIElement | null)[]>([]);
-
-  useEffect(() => {
-    const io = new IntersectionObserver(
-      (entries) => {
-        for (const e of entries) if (e.isIntersecting) setActive(Number((e.target as HTMLElement).dataset.i));
-      },
-      { rootMargin: '-45% 0px -50% 0px' },
-    );
-    refs.current.forEach((el) => el && io.observe(el));
-    return () => io.disconnect();
-  }, []);
 
   return (
     <>
@@ -70,68 +55,11 @@ export default function ProcessPage() {
           </p>
           {/* Overview strip */}
           <ol className="hero-fade mt-16 grid grid-cols-4 gap-px overflow-hidden rounded-[1rem] border border-white/10 bg-white/10 md:grid-cols-8" style={{ ['--d' as string]: '0.7s' }}>
-            {stages.map((s, i) => (
+            {stages.map((s) => (
               <li key={s.n}>
-                <a href={`#stage-${s.n}`} className={cn('block h-full bg-void p-4 transition-colors hover:bg-surface md:p-5', active === i && 'bg-surface')}>
-                  <span className={cn('font-display text-sm', active === i ? 'text-spark' : 'text-muted')}>{s.n}</span>
+                <div className="h-full bg-void p-4 md:p-5">
+                  <span className="font-display text-sm text-spark">{s.n}</span>
                   <span className="mt-2 block text-[0.8rem] font-semibold leading-tight md:text-[0.88rem]">{s.title}</span>
-                </a>
-              </li>
-            ))}
-          </ol>
-        </div>
-      </section>
-
-      <section aria-label="The eight stages" className="bg-void pb-[clamp(3rem,1.5rem+8vw,10rem)]">
-        <div className="shell grid gap-10 lg:grid-cols-12">
-          <div className="hidden lg:col-span-5 lg:block">
-            <div className="sticky top-[calc(var(--header-h)+3rem)] h-[calc(100svh-var(--header-h)-6rem)]">
-              <div className="relative h-full overflow-hidden rounded-[1.5rem] border border-white/10 bg-charcoal">
-                <div aria-hidden className="absolute -bottom-1/3 left-1/2 size-[44rem] -translate-x-1/2 rounded-full bg-[radial-gradient(circle,rgba(255,128,13,0.22),transparent_62%)]" />
-                {stages.map((s, i) => (
-                  <div key={s.n} aria-hidden className={cn('absolute inset-0 flex flex-col justify-between p-10 transition-[opacity,transform] duration-700 ease-[var(--ease-silk)]', active === i ? 'opacity-100' : 'translate-y-6 opacity-0')}>
-                    <span className="display text-[clamp(8rem,14vw,14rem)] leading-none text-spark">{s.n}</span>
-                    <div>
-                      <p className="display text-3xl">{s.title}</p>
-                      <p className="mt-3 italic text-flare/80">{s.question}</p>
-                    </div>
-                  </div>
-                ))}
-                {/* progress rail */}
-                <div aria-hidden className="absolute right-6 top-10 bottom-10 w-px bg-white/10">
-                  <div className="w-full origin-top bg-spark transition-[height] duration-700" style={{ height: `${((active + 1) / stages.length) * 100}%` }} />
-                </div>
-              </div>
-            </div>
-          </div>
-          <ol className="lg:col-span-6 lg:col-start-7">
-            {stages.map((s, i) => (
-              <li
-                key={s.n}
-                id={`stage-${s.n}`}
-                data-i={i}
-                ref={(el) => {
-                  refs.current[i] = el;
-                }}
-                className="scroll-mt-32 border-t border-white/10 py-9 lg:min-h-[70vh] lg:py-20"
-              >
-                <p className="font-display text-spark">{s.n}</p>
-                <h2 className="mt-3 text-[clamp(1.8rem,1.3rem+2vw,3rem)] font-semibold leading-tight tracking-[-0.02em]">{s.title}</h2>
-                <p className="mt-2 italic text-flare/80">{s.question}</p>
-                <p className="t-lead mt-6 text-soft">{s.text}</p>
-                <div className="mt-10 grid gap-8 sm:grid-cols-2">
-                  <div>
-                    <h3 className="eyebrow text-muted">What happens</h3>
-                    <ul className="mt-4 space-y-2">
-                      {s.activities.map((a) => (
-                        <li key={a} className="flex gap-3"><span aria-hidden className="mt-2.5 h-px w-4 shrink-0 bg-spark" />{a}</li>
-                      ))}
-                    </ul>
-                  </div>
-                  <div>
-                    <h3 className="eyebrow text-muted">Your part</h3>
-                    <p className="mt-4">{s.you}</p>
-                  </div>
                 </div>
               </li>
             ))}

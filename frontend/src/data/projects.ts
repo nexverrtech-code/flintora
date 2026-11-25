@@ -184,7 +184,7 @@ export const projects: Project[] = [
         title: 'Implementation',
         text: [
           'Built with React, TypeScript and Vite, with every page prerendered to static HTML for speed and search engines. Three.js powers the hero and is loaded only after the page is ready.',
-          'The planning tools (Brand Transformation Studio, Digital Presence Assessment, Budget Estimator and Creative Brief Builder) run entirely in the browser. No accounts and no hidden data collection.',
+          'The Creative Universe and the Start a Project conversation run entirely in the browser. No accounts and no hidden data collection.',
         ],
       },
       {

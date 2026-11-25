@@ -228,7 +228,7 @@ function ProcessTimeline() {
       <div className="shell grid gap-14 lg:grid-cols-12">
         <div className="lg:col-span-5">
           <div className="lg:sticky lg:top-[calc(var(--header-h)+3rem)]">
-            <Eyebrow n="04">Process</Eyebrow>
+            <Eyebrow n="03">Process</Eyebrow>
             <MaskReveal id="process-title" className="display mt-6 text-[clamp(2rem,1rem+3.2vw,4rem)]" lines={['Great work', 'comes from', 'great', 'thinking.']} accent={[3]} />
             <p className="mt-8 max-w-sm text-soft">Eight stages, from the first conversation to a confident handover. You always know where we are and what comes next.</p>
             <CtaLink to="/process" variant="ghost" className="mt-10">Our process in detail</CtaLink>
@@ -266,7 +266,7 @@ function AboutPreview() {
           <p className="mt-4 text-[0.8rem] text-muted max-md:hidden">Our own identity in use. From the FLINTORA brand book.</p>
         </div>
         <div className="lg:col-span-5 lg:col-start-8">
-          <Eyebrow n="05">About</Eyebrow>
+          <Eyebrow n="04">About</Eyebrow>
           <MaskReveal id="about-title" className="display t-lg mt-6" lines={['Creativity with', 'a clear purpose.']} />
           <p className="mt-8 text-soft">{company.summary}</p>
           <Reveal as="ul" className="mt-10 space-y-5 border-t border-white/10 pt-8 max-md:hidden" stagger={0.1}>
@@ -315,7 +315,7 @@ export default function HomePage() {
       <Hero />
       <Philosophy />
       <Capabilities />
-      <SelectedWorks />
+      {/* <SelectedWorks /> */}
       <ProcessTimeline />
       <AboutPreview />
       <FinalCta />

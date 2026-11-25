@@ -24,9 +24,8 @@ function RouteEffects() {
     document.getElementById('main')?.focus({ preventScroll: true });
   }, [pathname]);
   useEffect(() => {
-    const t = window.setTimeout(() => {
-      import('@/components/animation/gsap').then(({ getGsap }) => getGsap().ScrollTrigger.refresh());
-    }, 400);
+    // Let ScrollTrigger (loaded by pages that use it) re-measure after the new page settles.
+    const t = window.setTimeout(() => window.dispatchEvent(new Event('resize')), 400);
     return () => window.clearTimeout(t);
   }, [pathname]);
   return null;

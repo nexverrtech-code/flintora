@@ -1,13 +1,24 @@
 // Prerenders every route to static HTML, then writes sitemap.xml, robots.txt and llms.txt.
 // Runs after `vite build` (client) and `vite build --ssr` (server bundle in dist-ssr).
-import { readFile, writeFile, mkdir, rm } from 'node:fs/promises';
+import { readFile, writeFile, mkdir, rm, readdir } from 'node:fs/promises';
+import { existsSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const dist = join(root, 'dist');
 const template = await readFile(join(dist, 'index.html'), 'utf8');
-const { render, staticPaths, llmsTxt, siteUrl } = await import(pathToFileURL(join(root, 'dist-ssr', 'entry-server.js')).href);
+// Locate the server bundle. Normally dist-ssr/entry-server.js, but tolerate a hashed name in
+// dist-ssr/assets/ in case a build plugin changes the output layout.
+async function findEntry() {
+  const direct = join(root, 'dist-ssr', 'entry-server.js');
+  if (existsSync(direct)) return direct;
+  const assets = join(root, 'dist-ssr', 'assets');
+  const hit = existsSync(assets) && (await readdir(assets)).find((f) => /^entry-server.*\.js$/.test(f));
+  if (hit) return join(assets, hit);
+  throw new Error('Server bundle not found in dist-ssr. Did `vite build --ssr src/entry-server.tsx --outDir dist-ssr` run?');
+}
+const { render, staticPaths, llmsTxt, siteUrl } = await import(pathToFileURL(await findEntry()).href);
 
 const esc = (s) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;');
 const page = (html, head) =>

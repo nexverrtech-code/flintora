@@ -51,6 +51,8 @@ The output in `frontend/dist` is static and works on any static host.
 
 **Vercel:** import the repository, set the root directory to `frontend` (framework preset: Vite). `frontend/vercel.json` enables clean URLs and headers. Add the environment variables.
 
-**Cloudflare Pages:** root directory `frontend`, build command `npm run build`, output `dist`, environment variable `NODE_VERSION=22` plus the `VITE_*` values. `public/_headers` is applied automatically.
+**Cloudflare (Workers Builds, current setup):** project root directory `frontend`, build command `npm run build`, deploy command `npx wrangler deploy`. `frontend/wrangler.jsonc` deploys `dist/` as static assets (clean URLs, real 404 page) and must stay in the repo: without it Wrangler auto-configures the project, adds the Cloudflare Vite plugin and breaks the prerender step. Add the `VITE_*` values as build variables. `public/_headers` is applied automatically.
+
+**Cloudflare Pages:** root directory `frontend`, build command `npm run build`, output `dist`, environment variable `NODE_VERSION=22` plus the `VITE_*` values.
 
 After the first deploy: confirm `VITE_SITE_URL` matches the live domain, submit `/sitemap.xml` in Google Search Console, and test the enquiry channels.

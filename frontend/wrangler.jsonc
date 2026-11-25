@@ -1,0 +1,17 @@
+// Cloudflare Workers static-assets deployment.
+// `npm run build` produces a fully prerendered static site in ./dist; `wrangler deploy` only
+// uploads it. Having this file stops Wrangler's auto-setup from adding the Cloudflare Vite
+// plugin, which would change the build output and break the prerender step.
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "flintora",
+  "compatibility_date": "2026-11-23",
+  "assets": {
+    "directory": "./dist",
+    // /about is served from about.html, /capabilities/seo from capabilities/seo.html
+    "html_handling": "auto-trailing-slash",
+    // Unknown URLs get the prerendered 404 page with a real 404 status
+    "not_found_handling": "404-page"
+  },
+  "observability": { "enabled": true }
+}

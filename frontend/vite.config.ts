@@ -11,7 +11,7 @@ export default defineConfig({
   build: {
     target: 'es2022',
     cssCodeSplit: true,
-    chunkSizeWarningLimit: 900,
+    chunkSizeWarningLimit: 1000, // three.js (HeroScene) is ~920 kB raw; it is lazy-loaded after first paint
   },
   ssr: {
     // Bundle these for the prerender step so Node never has to resolve their ESM/CJS edge cases.

@@ -1,94 +1,56 @@
-# Flintora website
+# FLINTORA — Where Ideas Spark.
 
-Marketing website for **Flintora**, a digital marketing agency. *Where Ideas Spark.*
+The website of FLINTORA, a creative and digital studio. A frontend-only React site: every page is prerendered to static HTML, with no backend, database or accounts.
 
-Built with [Astro](https://astro.build) as a fully static site, with a three.js 3D hero, scroll-driven parallax and complete technical SEO.
+```
+brand-assets/   Official brand files (identity PDF, logo, flint stone artwork, Sora and Konexy fonts). Not deployed.
+frontend/       The website (React 19, TypeScript, Vite, Tailwind CSS).
+```
 
 ## Quick start
 
 ```bash
+cd frontend
 npm install
-npm run dev        # http://localhost:4321
-npm run build      # static output in dist/
-npm run preview    # serve dist/ locally
-npm run check      # TypeScript and Astro diagnostics
-npm run assets     # regenerate images/icons in public/ from brand-assets/
+npm run dev        # http://localhost:5173
+npm run build      # typecheck, client build, server build, prerender -> dist/
+npm run preview    # serve dist/ at http://localhost:4173
+npm run lint
+npm run assets     # regenerate images in public/ from ../brand-assets (needs poppler's pdftoppm)
 ```
 
-Requires Node 22 or newer.
+Node 22 or newer.
 
-## Before launch: fill these in
+## Before launch
 
-| Where | What |
+| What | Where |
 | --- | --- |
-| `src/data/site.ts` | Confirm `email`; add `phone`, `whatsapp`, `address` and social profile URLs. Empty values are hidden automatically. |
-| `.env` (copy from `.env.example`) | `SITE_URL`, `PUBLIC_WEB3FORMS_KEY`, `PUBLIC_GA_ID`, `PUBLIC_GSC_VERIFICATION` |
-| `src/pages/privacy-policy.astro`, `src/pages/terms.astro` | Template legal text. Have it reviewed for your jurisdiction. |
-| Konexy font | `brand-assets/fonts/konexy/KonexyPersonalUse.otf` is the **personal-use** version. Buy a commercial licence before going live, then replace `public/fonts/konexy.woff2`. |
+| Domain, verified email, phone, WhatsApp, enquiry form URL, address and social profiles | `frontend/.env` (copy `.env.example`). Anything left empty is hidden everywhere, including structured data. |
+| Budget Estimator rates | `frontend/src/data/pricing.ts`. The figures are **illustrative placeholders**. Replace them with FLINTORA's real rates, then set `ratesVerified = true` so the page wording changes. |
+| Team and leadership | `frontend/src/data/team.ts` (empty). Add real people with their approval; the About page and Person schema pick them up automatically. |
+| Testimonials | `frontend/src/data/testimonials.ts` (empty, hidden until filled). Genuine, approved quotes only. |
+| Client case studies | `frontend/src/data/projects.ts`. Add with `kind: 'client'`; only add `results` that the client has verified. |
+| Legal pages | `frontend/src/pages/legal/*`. Templates, written to match how the site works. Have them reviewed. |
+| Konexy font licence | The supplied file is **Konexy Personal Use**. A commercial licence is needed for a business website. |
 
-## Integrations
+## Architecture
 
-| Integration | Env variable | Without it |
-| --- | --- | --- |
-| Contact form (Web3Forms, free tier) | `PUBLIC_WEB3FORMS_KEY` | Form opens a pre-filled email to `site.email` instead |
-| Google Analytics 4 | `PUBLIC_GA_ID` | No analytics and no cookie banner |
-| Google Search Console | `PUBLIC_GSC_VERIFICATION` | Verify via DNS instead |
-
-GA only loads after a visitor accepts the consent banner.
-
-## Project structure
-
-```
-brand-assets/           Original brand files (PDF, logo, stone artwork, fonts). Not deployed.
-public/                 Static files: subset WOFF2 fonts, images, icons, _headers
-scripts/build-assets.mjs  Generates web images, OG image and icons from brand-assets/
-src/
-  content/blog/         Blog articles (Markdown)
-  content.config.ts     Blog schema
-  data/                 site.ts (business details), services.ts, playbooks.ts
-  components/           Header, Footer, SEO, Hero3D, PageHero, FlintScene, ProcessScroll, CTA, FAQ, ...
-  layouts/BaseLayout.astro
-  pages/                All routes (see below)
-  scripts/motion.ts     Reveals, parallax, scroll progress, 3D tilt, magnetic buttons
-  scripts/hero3d.ts     three.js hero scene (lazy loaded)
-  styles/global.css     Design tokens and base styles from the brand guide
-```
-
-## Pages
-
-`/`, `/services/` plus 6 service pages, `/playbooks/` plus 4 playbooks, `/about/`, `/blog/` plus articles, `/contact/`, `/privacy-policy/`, `/terms/`, `404`, `/rss.xml`, `/robots.txt`, `/sitemap-index.xml`, `/manifest.webmanifest`.
-
-### Adding content
-
-- **Blog post:** add a `.md` file in `src/content/blog/` with `title`, `description`, `date`, `category` and `readingTime` front matter.
-- **Service or playbook:** add an entry in `src/data/services.ts` or `src/data/playbooks.ts`. Pages, navigation, sitemap and schema update automatically.
-- **Konexy headlines:** Konexy only has letters, digits, `.` and `,`. Other characters fall back to Sora, so keep display headlines to those characters.
-
-## Brand system
-
-- Colours: Void Black `#040404`, Primary Spark `#FF800D`, Solar Flare `#FFA912`, Ember Depth `#FF9810`
-- Type: Konexy for the wordmark and primary headlines, Sora for everything else
-- The spark mark is redrawn as vector in `src/components/SparkMark.astro` and extruded in 3D in `src/scripts/hero3d.ts`
-
-## Motion and accessibility
-
-- The 3D hero loads after the page is idle. It is skipped for `prefers-reduced-motion`, Save-Data and devices without WebGL; the static SVG mark shows instead.
-- Rendering pauses when the hero is off screen or the tab is hidden.
-- Parallax, reveals and tilt are disabled under reduced motion; all content is server-rendered and visible without JavaScript.
-- Skip link, focus styles, semantic landmarks, labelled form fields and keyboard support for the mobile menu (Escape closes it).
+- **Routing:** React Router with route-level code splitting (`src/routes/routes.tsx`).
+- **Prerendering:** `scripts/prerender.mjs` renders every route with `react-dom/static` into `dist/<route>/index.html`, with full metadata and JSON-LD, then writes `sitemap.xml`, `robots.txt` and `llms.txt`. The browser hydrates the existing HTML.
+- **SEO:** `src/components/common/Seo.tsx` produces identical tags at prerender time and on client navigation. Schema helpers live in `src/utils/schema.ts` (Organization, WebSite, WebPage, Service, CreativeWork, BreadcrumbList, FAQPage, HowTo, Person once team data exists).
+- **Content:** all copy and data are in `src/data/*`.
+- **Motion:** GSAP + ScrollTrigger (masked reveals, parallax, pinned horizontal works, scroll-linked timeline), Lenis smooth scroll, Framer Motion (filters and wizard transitions), CSS for first-paint animations, React Three Fiber for the hero. Everything respects `prefers-reduced-motion`.
+- **Spark Awakening intro:** `src/components/3d/SparkAwakening.tsx`. Plays on every load or reload of the home page (not on in-site navigation), uses the real flint stone artwork split along its crack, can be skipped (button or Escape), is hidden behind a pre-paint cover so the page never flashes, and is skipped entirely for reduced motion.
+- **Forms:** Start a Project uses React Hook Form + Zod. Nothing is submitted by the page: the visitor reviews their enquiry and continues on WhatsApp, by email or to an external form (only those configured), or copies or downloads it.
 
 ## Deployment
 
-The output is static (`dist/`), so it runs on any static host.
+The output in `frontend/dist` is static and works on any static host.
 
-**Netlify:** connect the repo. `netlify.toml` sets the build command, and `public/_headers` sets caching and security headers. Add env variables in Site settings.
+**Netlify:** connect the repository. The root `netlify.toml` builds `frontend` and publishes `frontend/dist`. Add the `VITE_*` variables under Site settings → Environment variables.
 
-**Vercel:** import the repo with the Astro preset. `vercel.json` sets the headers. Add env variables in Project settings.
+**Vercel:** import the repository, set the root directory to `frontend` (framework preset: Vite). `frontend/vercel.json` enables clean URLs and headers. Add the environment variables.
 
-**Cloudflare Pages:** build command `npm run build`, output `dist`, set `NODE_VERSION=22`. `_headers` is applied automatically.
+**Cloudflare Pages:** root directory `frontend`, build command `npm run build`, output `dist`, environment variable `NODE_VERSION=22` plus the `VITE_*` values. `public/_headers` is applied automatically.
 
-After the first deploy:
-1. Point the domain at the host and make sure `SITE_URL` matches it.
-2. Add the property in Google Search Console and submit `/sitemap-index.xml`.
-3. Send a test enquiry through the contact form.
-4. Check the home page in PageSpeed Insights.
+After the first deploy: confirm `VITE_SITE_URL` matches the live domain, submit `/sitemap.xml` in Google Search Console, and test the enquiry channels.

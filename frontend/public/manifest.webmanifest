@@ -1,0 +1,14 @@
+{
+  "name": "FLINTORA",
+  "short_name": "FLINTORA",
+  "description": "Creative and digital studio. Where Ideas Spark.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#040404",
+  "theme_color": "#040404",
+  "icons": [
+    { "src": "/favicon/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/favicon/icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "/favicon/favicon.svg", "sizes": "any", "type": "image/svg+xml" }
+  ]
+}

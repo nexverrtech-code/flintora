@@ -1,7 +1,8 @@
 node_modules
 dist
-.astro
+dist-ssr
 .env
 .env.*
 !.env.example
 .DS_Store
+*.log

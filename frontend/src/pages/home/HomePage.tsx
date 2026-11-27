@@ -13,6 +13,7 @@ import { CtaLink } from '@/components/common/CtaLink';
 import { Picture } from '@/components/common/Picture';
 import { Faq } from '@/components/common/Faq';
 import { TechOrbit } from '@/components/interactive/TechOrbit';
+import { SolarSystem } from '@/components/interactive/SolarSystem';
 import { faqSchema } from '@/utils/schema';
 import { EmberField } from '@/components/interactive/EmberField';
 import { stages } from '@/data/process';
@@ -78,7 +79,29 @@ function Philosophy() {
   );
 }
 
-/* ---------- 02 Industries ---------- */
+/* ---------- 02 What we do: the Creative Universe ---------- */
+function Universe() {
+  return (
+    <section aria-labelledby="universe-title" className="section-y relative overflow-hidden bg-void">
+      <EmberField density={0.5} />
+      <div className="shell relative">
+        <div className="grid items-end gap-6 lg:grid-cols-12">
+          <div className="lg:col-span-7">
+            <Eyebrow n="02">What we do</Eyebrow>
+            <MaskReveal id="universe-title" className="display t-lg mt-6" lines={['One spark.', 'Many disciplines.']} accent={[0]} />
+          </div>
+          <Reveal className="lg:col-span-5">
+            <p className="text-soft">Nine disciplines orbit the same idea. Hover or tap a planet to explore it, and select it again to open its page.</p>
+            <Link to="/creative-universe" className="link-line mt-4 inline-block font-semibold text-spark">Enter the Creative Universe</Link>
+          </Reveal>
+        </div>
+        <SolarSystem className="mt-8" />
+      </div>
+    </section>
+  );
+}
+
+/* ---------- 03 Industries ---------- */
 const industryIcons: Record<string, LucideIcon> = {
   'Retail and D2C': ShoppingBag,
   'Fashion and apparel': Shirt,
@@ -99,7 +122,7 @@ function Industries() {
     <section aria-labelledby="industries-title" className="section-y bg-void">
       <div className="shell">
         <div className="mx-auto max-w-3xl text-center">
-          <Eyebrow n="02" className="justify-center">Industries</Eyebrow>
+          <Eyebrow n="03" className="justify-center">Industries</Eyebrow>
           <MaskReveal id="industries-title" className="display t-lg mt-6" lines={['Branding and digital', 'for every industry.']} accent={[1]} />
           <Reveal as="p" className="mx-auto mt-6 max-w-[52ch] text-soft">
             From a neighbourhood restaurant to a growing manufacturer, we shape brands, websites and campaigns that fit how each industry really sells.
@@ -132,7 +155,7 @@ function TechStack() {
     <section aria-labelledby="stack-title" className="section-y relative overflow-hidden bg-charcoal">
       <div className="shell grid items-center gap-12 lg:grid-cols-12">
         <div className="lg:col-span-5">
-          <Eyebrow n="03">Our tech stack</Eyebrow>
+          <Eyebrow n="04">Our tech stack</Eyebrow>
           <MaskReveal id="stack-title" className="display t-lg mt-6" lines={['Tools that', 'power the', 'spark.']} accent={[2]} />
           <Reveal as="p" className="mt-6 max-w-md text-soft">
             We design, build and grow with a modern, proven stack. Design and production at the core, engineering around it, and the growth platforms that put the work in front of people.
@@ -202,7 +225,7 @@ function ProcessTimeline() {
       <div className="shell grid gap-14 lg:grid-cols-12">
         <div className="lg:col-span-5">
           <div className="lg:sticky lg:top-[calc(var(--header-h)+3rem)]">
-            <Eyebrow n="04">Process</Eyebrow>
+            <Eyebrow n="05">Process</Eyebrow>
             <MaskReveal id="process-title" className="display mt-6 text-[clamp(2rem,1rem+3.2vw,4rem)]" lines={['Great work', 'comes from', 'great', 'thinking.']} accent={[3]} />
             <p className="mt-8 max-w-sm text-soft">Eight stages, from the first conversation to a confident handover. You always know where we are and what comes next.</p>
             <CtaLink to="/process" variant="ghost" className="mt-10">Our process in detail</CtaLink>
@@ -240,7 +263,7 @@ function AboutPreview() {
           <p className="mt-4 text-[0.8rem] text-muted max-md:hidden">Our own identity in use. From the FLINTORA brand book.</p>
         </div>
         <div className="lg:col-span-5 lg:col-start-8">
-          <Eyebrow n="05">About</Eyebrow>
+          <Eyebrow n="06">About</Eyebrow>
           <MaskReveal id="about-title" className="display t-lg mt-6" lines={['Creativity with', 'a clear purpose.']} />
           <p className="mt-8 text-soft">{company.summary}</p>
           <Reveal as="ul" className="mt-10 space-y-5 border-t border-white/10 pt-8 max-md:hidden" stagger={0.1}>
@@ -289,6 +312,7 @@ export default function HomePage() {
       />
       <Hero />
       <Philosophy />
+      <Universe />
       <Industries />
       <TechStack />
       {/* Selected Works is hidden on the home page. To restore it: import { SelectedWorks } from './SelectedWorks' and render <SelectedWorks /> here. */}

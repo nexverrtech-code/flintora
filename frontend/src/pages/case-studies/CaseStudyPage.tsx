@@ -12,6 +12,7 @@ import { getProject, projects, type CaseSection, type Project } from '@/data/pro
 import { getService } from '@/data/services';
 import { creativeWorkSchema } from '@/utils/schema';
 import { cn } from '@/utils/cn';
+import { FloatingStones } from '@/components/common/FloatingStones';
 import NotFoundPage from '@/pages/not-found/NotFoundPage';
 
 function Caption({ text }: { text?: string }) {
@@ -99,8 +100,9 @@ export default function CaseStudyPage() {
       />
 
       {/* Cover */}
-      <section className="relative bg-void pt-[calc(var(--header-h)+3rem)] md:pt-[calc(var(--header-h)+5rem)]">
-        <div className="shell">
+      <section className="relative overflow-hidden bg-void pt-[calc(var(--header-h)+3rem)] md:pt-[calc(var(--header-h)+5rem)]">
+        <FloatingStones preset="single" className="bottom-auto h-[42vh]" />
+        <div className="shell relative">
           <Breadcrumbs items={crumbs} />
           <div className="mt-10 grid items-end gap-8 lg:grid-cols-12">
             <div className="lg:col-span-8">

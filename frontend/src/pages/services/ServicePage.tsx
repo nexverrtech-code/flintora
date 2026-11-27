@@ -18,6 +18,7 @@ import { getService, services, type Service } from '@/data/services';
 import { projectsForService } from '@/data/projects';
 import { faqSchema, serviceSchema } from '@/utils/schema';
 import { cn } from '@/utils/cn';
+import { FloatingStones } from '@/components/common/FloatingStones';
 import NotFoundPage from '@/pages/not-found/NotFoundPage';
 
 /* ---------- Hero variants ---------- */
@@ -49,6 +50,7 @@ function Hero({ s }: { s: Service }) {
           </Parallax>
           <div className="absolute inset-0 bg-gradient-to-t from-void via-void/70 to-void/10" />
         </div>
+        <FloatingStones preset="single" className="[&>div]:!top-auto [&>div]:!bottom-[10%]" />
         <div className="shell relative pb-16 pt-[calc(var(--header-h)+6rem)] md:pb-24">
           <Breadcrumbs items={crumbs} />
           {label}
@@ -61,6 +63,7 @@ function Hero({ s }: { s: Service }) {
   if (s.layout === 'index')
     return (
       <section className="relative overflow-hidden bg-void pb-20 pt-[calc(var(--header-h)+4rem)] md:pt-[calc(var(--header-h)+6rem)]">
+        <FloatingStones preset="pair" />
         <p aria-hidden className="display pointer-events-none absolute -right-[4vw] top-[8vh] select-none text-[38vw] leading-none text-transparent [-webkit-text-stroke:1px_rgba(255,128,13,0.25)] md:text-[30vw]">
           {s.n}
         </p>
@@ -84,7 +87,8 @@ function Hero({ s }: { s: Service }) {
   if (s.layout === 'stacked')
     return (
       <section className="relative overflow-hidden bg-void pt-[calc(var(--header-h)+4rem)] md:pt-[calc(var(--header-h)+6rem)]">
-        <div className="shell text-center">
+        <FloatingStones preset="scatter" className="h-[60vh]" />
+        <div className="shell relative text-center">
           <Breadcrumbs items={crumbs} className="flex justify-center" />
           <div className="flex justify-center">{label}</div>
           <div className="mx-auto mt-6 max-w-5xl">{title}</div>
@@ -101,6 +105,7 @@ function Hero({ s }: { s: Service }) {
   // split
   return (
     <section className="relative overflow-hidden bg-void pb-16 pt-[calc(var(--header-h)+4rem)] md:pt-[calc(var(--header-h)+6rem)]">
+      <FloatingStones preset="single" className="z-10 [&>div]:!right-[44%] [&>div]:!top-auto [&>div]:!bottom-[6%] [&>div]:!w-[clamp(4rem,7vw,7rem)]" />
       <div className="shell grid items-center gap-14 lg:grid-cols-12">
         <div className="lg:col-span-6">
           <Breadcrumbs items={crumbs} />

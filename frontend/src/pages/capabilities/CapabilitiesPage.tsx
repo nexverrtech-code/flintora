@@ -14,6 +14,7 @@ import type { StockKey } from '@/data/stock';
 import { services } from '@/data/services';
 import { useFinePointer, useReducedMotionPref } from '@/hooks/useMediaQuery';
 import { faqSchema } from '@/utils/schema';
+import { FloatingStones } from '@/components/common/FloatingStones';
 import { cn } from '@/utils/cn';
 
 const faqs = [
@@ -103,7 +104,8 @@ export default function CapabilitiesPage() {
         schema={[faqSchema(faqs)]}
       />
       <section className="relative overflow-hidden bg-void pb-16 pt-[calc(var(--header-h)+4rem)] md:pt-[calc(var(--header-h)+7rem)]">
-        <div className="shell">
+        <FloatingStones preset="scatter" />
+        <div className="shell relative">
           <Breadcrumbs items={crumbs} />
           <div className="mt-10 grid items-end gap-10 lg:grid-cols-12">
             <h1 className="display hero-rise t-hero lg:col-span-8">

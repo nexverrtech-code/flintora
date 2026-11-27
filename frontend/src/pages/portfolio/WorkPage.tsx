@@ -9,6 +9,7 @@ import { Lines } from '@/components/common/Display';
 import { VisualMedia } from '@/components/art/VisualMedia';
 import { projects, projectCategories, type ProjectCategory } from '@/data/projects';
 import { absoluteUrl } from '@/data/company';
+import { FloatingStones } from '@/components/common/FloatingStones';
 import { cn } from '@/utils/cn';
 
 // Asymmetric rhythm: column spans and vertical offsets for an editorial, non-grid feel.
@@ -42,8 +43,9 @@ export default function WorkPage() {
           },
         ]}
       />
-      <section className="bg-void pb-12 pt-[calc(var(--header-h)+4rem)] md:pt-[calc(var(--header-h)+7rem)]">
-        <div className="shell">
+      <section className="relative overflow-hidden bg-void pb-12 pt-[calc(var(--header-h)+4rem)] md:pt-[calc(var(--header-h)+7rem)]">
+        <FloatingStones preset="pair" />
+        <div className="shell relative">
           <Breadcrumbs items={crumbs} />
           <div className="mt-10 grid items-end gap-10 lg:grid-cols-12">
             <h1 className="display hero-rise t-hero lg:col-span-8">

@@ -1,6 +1,7 @@
 import { useMemo, useRef } from 'react';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import * as THREE from 'three';
+import { makeStoneGeometry, stoneMaterial } from './stone';
 
 /*
  * Hero composition: the official spark F, extruded and lit warmly, surrounded by dark
@@ -49,28 +50,14 @@ function SparkF() {
   );
 }
 
-/** Low-poly flint fragment: a displaced icosahedron with flat shading. */
-function useFragmentGeometry(seed: number) {
+/** Real-looking flint stone (procedural; see stone.ts). Seeded so each fragment keeps its shape. */
+function useFragmentGeometry(seed: number, detail: number) {
   return useMemo(() => {
-    const g = new THREE.IcosahedronGeometry(1, 0).toNonIndexed();
-    const p = g.attributes.position as THREE.BufferAttribute;
-    const v = new THREE.Vector3();
-    const rnd = (n: number) => {
-      const x = Math.sin(n * 127.1 + seed * 311.7) * 43758.5453;
-      return x - Math.floor(x);
-    };
-    const cache = new Map<string, number>();
-    for (let i = 0; i < p.count; i++) {
-      v.fromBufferAttribute(p, i);
-      const key = `${v.x.toFixed(3)},${v.y.toFixed(3)},${v.z.toFixed(3)}`;
-      if (!cache.has(key)) cache.set(key, 0.65 + rnd(cache.size) * 0.6);
-      v.multiplyScalar(cache.get(key)!);
-      v.y *= 0.62;
-      p.setXYZ(i, v.x, v.y, v.z);
-    }
-    g.computeVertexNormals();
+    const g = makeStoneGeometry({ seed: seed * 13 + 1, detail, cuts: 5 + (seed % 3), palette: seed % 4 === 0 ? 'granite' : 'flint' });
+    g.computeBoundingSphere();
+    g.scale(1 / g.boundingSphere!.radius, 1 / g.boundingSphere!.radius, 1 / g.boundingSphere!.radius);
     return g;
-  }, [seed]);
+  }, [seed, detail]);
 }
 
 const FRAGMENTS = [
@@ -87,8 +74,9 @@ const FRAGMENTS = [
 
 function Fragment({ p, s, seed, count }: { p: readonly number[]; s: number; seed: number; count: number }) {
   const ref = useRef<THREE.Mesh>(null);
-  const geo = useFragmentGeometry(seed);
-  const speed = 0.15 + (seed % 4) * 0.07;
+  const geo = useFragmentGeometry(seed, count > 5 ? 22 : 14);
+  const mat = useMemo(stoneMaterial, []);
+  const speed = 0.06 + (seed % 4) * 0.03;
   useFrame(({ clock }) => {
     const m = ref.current;
     if (!m) return;
@@ -99,9 +87,7 @@ function Fragment({ p, s, seed, count }: { p: readonly number[]; s: number; seed
   });
   if (seed > count) return null;
   return (
-    <mesh ref={ref} geometry={geo} position={[p[0], p[1], p[2]]} scale={s}>
-      <meshStandardMaterial color="#1a1817" roughness={0.85} metalness={0.15} flatShading />
-    </mesh>
+    <mesh ref={ref} geometry={geo} material={mat} position={[p[0], p[1], p[2]]} scale={s} />
   );
 }
 

@@ -2,16 +2,15 @@ import { Seo } from '@/components/common/Seo';
 import { Breadcrumbs } from '@/components/common/Breadcrumbs';
 import { Eyebrow } from '@/components/common/Eyebrow';
 import { CtaLink } from '@/components/common/CtaLink';
-import { SparkMark } from '@/components/common/SparkMark';
 import { Lines } from '@/components/common/Display';
 import { MaskReveal } from '@/components/animation/MaskReveal';
 import { Reveal } from '@/components/animation/Reveal';
-import { Parallax } from '@/components/animation/Parallax';
 import { ImageReveal } from '@/components/animation/ImageReveal';
 import { StockPhoto } from '@/components/common/StockPhoto';
 import { EmberField } from '@/components/interactive/EmberField';
 import { company, values } from '@/data/company';
 import { team } from '@/data/team';
+import { FloatingStones } from '@/components/common/FloatingStones';
 import { personSchema } from '@/utils/schema';
 
 export default function AboutPage() {
@@ -30,9 +29,7 @@ export default function AboutPage() {
       {/* Introduction */}
       <section className="grain relative overflow-hidden bg-void pb-16 pt-[calc(var(--header-h)+3rem)] md:pb-24 md:pt-[calc(var(--header-h)+6rem)]">
         <div aria-hidden className="absolute -right-[10%] top-[10%] size-[60rem] rounded-full bg-[radial-gradient(circle,rgba(255,128,13,0.14),transparent_62%)]" />
-        <Parallax speed={-30} className="pointer-events-none absolute right-[6%] top-[22%] hidden md:block">
-          <SparkMark mono className="h-[46vh] w-auto text-white/[0.04]" />
-        </Parallax>
+        <FloatingStones preset="right" />
         <div className="shell relative">
           <Breadcrumbs items={crumbs} />
           <h1 className="display hero-rise t-hero mt-8 max-w-[12ch]">

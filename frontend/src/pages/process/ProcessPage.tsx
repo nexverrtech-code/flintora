@@ -9,6 +9,7 @@ import { Reveal } from '@/components/animation/Reveal';
 import { ImageReveal } from '@/components/animation/ImageReveal';
 import { StockPhoto } from '@/components/common/StockPhoto';
 import { stages } from '@/data/process';
+import { FloatingStones } from '@/components/common/FloatingStones';
 import { faqSchema } from '@/utils/schema';
 
 const expectations = [
@@ -47,7 +48,8 @@ export default function ProcessPage() {
       />
 
       <section className="relative overflow-hidden bg-void pb-16 pt-[calc(var(--header-h)+4rem)] md:pt-[calc(var(--header-h)+7rem)]">
-        <div className="shell">
+        <FloatingStones preset="right" />
+        <div className="shell relative">
           <Breadcrumbs items={crumbs} />
           <h1 className="display hero-rise t-hero mt-10 max-w-[13ch]">
             <Lines lines={['From first', 'spark to', 'delivery.']} accent={[2]} />

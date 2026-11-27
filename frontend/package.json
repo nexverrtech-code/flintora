@@ -13,7 +13,8 @@
     "preview": "vite preview --port 4173",
     "typecheck": "tsc -p tsconfig.json",
     "lint": "eslint .",
-    "assets": "node scripts/build-assets.mjs"
+    "assets": "node scripts/build-assets.mjs",
+    "stones": "vite --config lab/vite.lab.config.ts"
   },
   "dependencies": {
     "@hookform/resolvers": "^7.0.9",

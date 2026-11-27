@@ -27,7 +27,7 @@ import { cn } from '@/utils/cn';
  * The FLINTORA "solar system": the tools we work with orbit the spark in three rings.
  *   inner  = design and production, middle = build, outer = growth and marketing.
  * Rings rotate slowly in alternating directions; each logo counter-rotates to stay upright.
- * Hover pauses the motion. Reduced motion shows it still. Logos: Simple Icons (CC0).
+ * The orbit keeps turning on hover. Reduced motion shows it still. Logos: Simple Icons (CC0).
  */
 
 interface Ring {
@@ -103,8 +103,9 @@ export function TechOrbit({ className }: { className?: string }) {
           </div>
         ))}
         {/* the spark at the centre */}
-        <div className="absolute left-1/2 top-1/2 grid size-[21%] -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full border border-spark/30 bg-void shadow-[0_0_60px_-10px_rgba(255,128,13,0.7)]">
-          <SparkMark className="h-[52%] w-auto" />
+        <div className="absolute left-1/2 top-1/2 grid size-[24%] -translate-x-1/2 -translate-y-1/2 place-items-center">
+          <img src="/images/stones/stone-flint-2-400.webp" alt="" width={400} height={400} loading="lazy" decoding="async" className="absolute inset-0 h-full w-full object-contain drop-shadow-[0_0_40px_rgba(255,128,13,0.45)]" />
+          <SparkMark className="relative h-[46%] w-auto drop-shadow-[0_0_18px_rgba(255,128,13,0.9)]" />
         </div>
       </div>
     </div>

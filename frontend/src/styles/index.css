@@ -398,10 +398,23 @@ svg {
   animation-timing-function: linear;
   animation-iteration-count: infinite;
 }
-.orbit:hover .orbit-ring,
-.orbit:hover .orbit-chip {
-  animation-play-state: paused;
-}
 @keyframes orbit-spin {
   to { rotate: 360deg; }
+}
+
+/* Floating stones: a slow, weighty drift */
+.stone-drift {
+  animation: stone-drift 9s ease-in-out infinite;
+}
+@keyframes stone-drift {
+  0%, 100% { transform: translate3d(0, 0, 0) rotate(0deg); }
+  50% { transform: translate3d(0, -12px, 0) rotate(-2.5deg); }
+}
+
+/* Creative Universe: labels sit under each planet; planets behind the sun show only their number */
+.planet-label[data-far='true'] .planet-name { display: none; }
+.planet-label[data-far='true'] { opacity: 0.6; }
+@keyframes corona {
+  0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.9; }
+  50% { transform: translate(-50%, -50%) scale(1.08); opacity: 1; }
 }

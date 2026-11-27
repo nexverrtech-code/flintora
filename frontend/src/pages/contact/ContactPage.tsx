@@ -11,6 +11,7 @@ import { StockPhoto } from '@/components/common/StockPhoto';
 import { Button } from '@/components/ui/button';
 import { company, socialLinks, addressLines } from '@/data/company';
 import { services, getService } from '@/data/services';
+import { FloatingStones } from '@/components/common/FloatingStones';
 import { cn } from '@/utils/cn';
 
 /*
@@ -113,6 +114,7 @@ export default function ContactPage() {
       />
       <section className="relative overflow-hidden bg-void pb-[clamp(3.5rem,2rem+6vw,8rem)] pt-[calc(var(--header-h)+2.5rem)] md:pt-[calc(var(--header-h)+5rem)]">
         <div aria-hidden className="absolute -right-40 top-10 size-[46rem] rounded-full bg-[radial-gradient(circle,rgba(255,128,13,0.12),transparent_62%)]" />
+        <FloatingStones preset="single" />
         <div className="shell relative">
           <Breadcrumbs items={crumbs} />
           <h1 className="display hero-rise t-xl mt-8">

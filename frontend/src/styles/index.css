@@ -390,3 +390,18 @@ svg {
   .pb-24 { padding-bottom: 3.5rem; }
   .space-y-14 > :not(:last-child) { margin-bottom: 2rem; }
 }
+
+/* Tech stack orbit */
+.orbit-ring,
+.orbit-chip {
+  animation-name: orbit-spin;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+.orbit:hover .orbit-ring,
+.orbit:hover .orbit-chip {
+  animation-play-state: paused;
+}
+@keyframes orbit-spin {
+  to { rotate: 360deg; }
+}

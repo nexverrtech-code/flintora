@@ -50,11 +50,10 @@ export function Footer() {
                 {primaryNav.map((n) => (
                   <li key={n.to}><Link to={n.to} className="link-line text-soft hover:text-white">{n.label}</Link></li>
                 ))}
-                <li><Link to="/start-a-project" className="link-line text-soft hover:text-white">Start a project</Link></li>
               </ul>
             </div>
             <div className="max-md:hidden">
-              <h2 className="eyebrow mb-5 text-muted">Capabilities</h2>
+              <h2 className="eyebrow mb-5 text-muted"><Link to="/capabilities" className="hover:text-white">Capabilities</Link></h2>
               <ul className="space-y-2.5 text-[0.92rem]">
                 {services.map((s) => (
                   <li key={s.slug}><Link to={`/capabilities/${s.slug}`} className="link-line text-soft hover:text-white">{s.name}</Link></li>

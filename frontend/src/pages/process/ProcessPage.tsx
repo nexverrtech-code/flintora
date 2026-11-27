@@ -6,6 +6,8 @@ import { Lines } from '@/components/common/Display';
 import { Faq } from '@/components/common/Faq';
 import { MaskReveal } from '@/components/animation/MaskReveal';
 import { Reveal } from '@/components/animation/Reveal';
+import { ImageReveal } from '@/components/animation/ImageReveal';
+import { StockPhoto } from '@/components/common/StockPhoto';
 import { stages } from '@/data/process';
 import { faqSchema } from '@/utils/schema';
 
@@ -67,6 +69,14 @@ export default function ProcessPage() {
         </div>
       </section>
 
+      <section className="bg-void pb-[clamp(3rem,2rem+4vw,6rem)]">
+        <div className="shell">
+          <ImageReveal className="aspect-[16/9] rounded-[1.25rem] md:aspect-[21/9]">
+            <StockPhoto name="process" ratio="21:9" sizes="(min-width:1360px) 1360px, 100vw" className="h-full w-full" />
+          </ImageReveal>
+        </div>
+      </section>
+
       <section className="bg-paper text-ink">
         <div className="shell section-y">
           <Eyebrow className="text-[#a34b00]">Working together</Eyebrow>
@@ -87,7 +97,7 @@ export default function ProcessPage() {
           <div className="lg:col-span-4">
             <Eyebrow>FAQ</Eyebrow>
             <h2 className="display t-md mt-6">Process questions</h2>
-            <CtaLink to="/start-a-project" className="mt-10">Start a project</CtaLink>
+            <CtaLink to="/contact" className="mt-10">Start a project</CtaLink>
           </div>
           <Faq items={faqs} className="lg:col-span-7 lg:col-start-6" />
         </div>

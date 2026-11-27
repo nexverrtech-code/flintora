@@ -217,7 +217,7 @@ export default function CaseStudyPage() {
       <section className="bg-charcoal">
         <div className="shell flex flex-wrap items-center justify-between gap-8 py-16">
           <p className="display t-md max-w-[18ch]">Have a project like this in mind?</p>
-          <CtaLink to="/start-a-project">Start a project</CtaLink>
+          <CtaLink to="/contact">Start a project</CtaLink>
         </div>
       </section>
     </>

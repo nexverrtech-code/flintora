@@ -9,7 +9,7 @@ export const company = {
   name: 'FLINTORA',
   displayName: 'Flintora',
   tagline: 'Where Ideas Spark.',
-  siteUrl: (clean(env.VITE_SITE_URL) || 'https://flintora.com').replace(/\/$/, ''),
+  siteUrl: (clean(env.VITE_SITE_URL) || 'https://flintora.nexverrtech.com').replace(/\/$/, ''),
   summary:
     'FLINTORA is a creative and digital studio. We shape brands, design and build websites and digital products, and run the marketing, content and automation that help them grow.',
   // Long-form description used for structured data and the About page "at a glance" block.
@@ -22,6 +22,28 @@ export const company = {
     phone: clean(env.VITE_CONTACT_PHONE),
     whatsapp: clean(env.VITE_WHATSAPP_NUMBER).replace(/\D/g, ''),
     enquiryUrl: clean(env.VITE_ENQUIRY_URL),
+    /** Web3Forms access key: the contact form emails enquiries to the address registered with it. */
+    formKey: clean(env.VITE_WEB3FORMS_KEY),
+  },
+  /** Local search signals (Google Business Profile and maps). All optional. */
+  local: {
+    serviceArea: clean(env.VITE_SERVICE_AREA)
+      .split(',')
+      .map((x) => x.trim())
+      .filter(Boolean),
+    lat: clean(env.VITE_GEO_LAT),
+    lng: clean(env.VITE_GEO_LNG),
+    /** schema.org format, e.g. "Mo-Fr 09:30-18:30, Sa 10:00-14:00" */
+    openingHours: clean(env.VITE_OPENING_HOURS)
+      .split(',')
+      .map((x) => x.trim())
+      .filter(Boolean),
+    googleBusinessUrl: clean(env.VITE_GOOGLE_BUSINESS_URL),
+    mapsUrl: clean(env.VITE_GOOGLE_MAPS_URL),
+  },
+  verification: {
+    google: clean(env.VITE_GSC_VERIFICATION),
+    bing: clean(env.VITE_BING_VERIFICATION),
   },
   address: {
     street: clean(env.VITE_ADDRESS_STREET),
@@ -62,13 +84,17 @@ export const absoluteUrl = (path = '/') => `${company.siteUrl}${path.startsWith(
 /** Industries the studio's services are designed for. Describes scope, not past clients. */
 export const industries = [
   'Retail and D2C',
-  'Hospitality and food',
-  'Real estate and architecture',
-  'Professional services',
+  'Fashion and apparel',
+  'Food and hospitality',
+  'Real estate',
+  'Construction',
+  'Manufacturing',
   'Education',
   'Healthcare and wellness',
   'Technology and startups',
-  'Manufacturing and B2B',
+  'Professional services',
+  'Logistics',
+  'Non-profits',
 ];
 
 export const values = [

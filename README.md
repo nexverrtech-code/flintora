@@ -42,6 +42,34 @@ Node 22 or newer.
 - **Spark Awakening intro:** `src/components/3d/SparkAwakening.tsx`. Plays on every load or reload of the home page (not on in-site navigation), uses the real flint stone artwork split along its crack, can be skipped (button or Escape), is hidden behind a pre-paint cover so the page never flashes, and is skipped entirely for reduced motion.
 - **Forms:** Start a Project uses React Hook Form + Zod. Nothing is submitted by the page: the visitor reviews their enquiry and continues on WhatsApp, by email or to an external form (only those configured), or copies or downloads it.
 
+## Contact form (sends real emails)
+
+The Contact page form posts to [Web3Forms](https://web3forms.com) (free). Create an access key with the inbox that should receive enquiries and set `VITE_WEB3FORMS_KEY` as a build variable in Cloudflare. A success message is only shown when Web3Forms confirms delivery. Without a key, the form opens the visitor's email app addressed to `VITE_CONTACT_EMAIL`.
+
+## Search: SEO, GEO, AEO and Google Business
+
+Already built in:
+- Prerendered HTML for every page, unique titles and descriptions, canonical URLs, Open Graph, `sitemap.xml`, `robots.txt`.
+- `ProfessionalService` (LocalBusiness) structured data with address, phone, geo coordinates, opening hours, service area, map link and Google Business Profile link, filled from the `VITE_*` variables.
+- Service, FAQPage (home, capabilities, services, process), BreadcrumbList, CreativeWork and HowTo structured data for answer engines and rich results.
+- `llms.txt` with a plain-language summary of services, industries and contact details for AI assistants (GEO).
+- Google Search Console and Bing verification tags (`VITE_GSC_VERIFICATION`, `VITE_BING_VERIFICATION`).
+
+Your checklist (these happen outside the website and matter most for local ranking):
+1. Set `VITE_SITE_URL` to the live domain.
+2. Create or claim the Google Business Profile. Use exactly the same business name, address and phone (NAP) as in the `VITE_ADDRESS_*` and `VITE_CONTACT_PHONE` values, choose accurate categories (for example "Marketing agency", "Website designer", "Graphic designer"), add photos, services and opening hours.
+3. Put the profile link in `VITE_GOOGLE_BUSINESS_URL` and the map link in `VITE_GOOGLE_MAPS_URL`, plus `VITE_GEO_LAT` / `VITE_GEO_LNG` and `VITE_SERVICE_AREA`.
+4. Verify the site in Google Search Console and Bing Webmaster Tools and submit `/sitemap.xml`.
+5. Ask happy clients for Google reviews and reply to every review.
+6. List the business with the same NAP on trusted directories (JustDial, IndiaMART, Clutch, LinkedIn company page).
+7. Publish real case studies as projects finish; genuine work is the strongest ranking and trust signal.
+
+Nobody can guarantee a top position on Google or in AI answers; these are the factors that the site and you control.
+
+## Stock photography
+
+Service, About, Process and Contact photos come from Unsplash (free licence, commercial use, no attribution required) and are listed in `frontend/src/data/stock.ts`. To use your own photos, replace an `id` with the full URL of your image.
+
 ## Deployment
 
 The output in `frontend/dist` is static and works on any static host.

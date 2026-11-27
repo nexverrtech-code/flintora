@@ -5,7 +5,7 @@ import { HeadContext, type HeadData } from './components/common/Seo';
 import { staticPaths } from './routes/routes';
 import { services } from './data/services';
 import { projects } from './data/projects';
-import { company, absoluteUrl } from './data/company';
+import { company, absoluteUrl, industries, addressLines } from './data/company';
 
 export { staticPaths };
 
@@ -41,11 +41,23 @@ export function llmsTxt() {
         `- [${p.title}](${absoluteUrl(`/work/${p.slug}`)}): ${p.summary}${p.kind === 'concept' ? ' (Concept study for a fictional brand, not client work.)' : ''}`,
     ),
     '',
+    '## Industries served',
+    ...industries.map((i) => `- ${i}`),
+    '',
+    '## How we work',
+    '- Discovery, research, strategy, creative direction, design, development, refinement and delivery.',
+    '',
+    '## Contact',
+    `- Contact form: ${absoluteUrl('/contact')}`,
+    ...(company.contact.email ? [`- Email: ${company.contact.email}`] : []),
+    ...(company.contact.phone ? [`- Phone: ${company.contact.phone}`] : []),
+    ...(addressLines.length ? [`- Address: ${addressLines.join(', ')}`] : []),
+    ...(company.local.serviceArea.length ? [`- Service area: ${company.local.serviceArea.join(', ')}`] : []),
+    '',
     '## Key pages',
     `- [About](${absoluteUrl('/about')})`,
     `- [Process](${absoluteUrl('/process')})`,
     `- [Contact](${absoluteUrl('/contact')})`,
-    `- [Start a project](${absoluteUrl('/start-a-project')})`,
     '',
   ].join('\n');
 }

@@ -45,6 +45,15 @@ function build(p: SeoProps) {
     ['name', 'twitter:title', title],
     ['name', 'twitter:description', p.description],
     ['name', 'twitter:image', image],
+    ...(company.verification.google ? [['name', 'google-site-verification', company.verification.google] as [string, string, string]] : []),
+    ...(company.verification.bing ? [['name', 'msvalidate.01', company.verification.bing] as [string, string, string]] : []),
+    ...(company.local.lat && company.local.lng
+      ? ([
+          ['name', 'geo.position', `${company.local.lat};${company.local.lng}`],
+          ['name', 'ICBM', `${company.local.lat}, ${company.local.lng}`],
+          ...(company.address.city ? [['name', 'geo.placename', company.address.city]] : []),
+        ] as [string, string, string][])
+      : []),
   ];
   const schema = [
     organizationSchema(),

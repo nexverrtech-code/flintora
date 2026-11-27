@@ -10,7 +10,8 @@ import { MaskReveal } from '@/components/animation/MaskReveal';
 import { Reveal } from '@/components/animation/Reveal';
 import { Parallax } from '@/components/animation/Parallax';
 import { ImageReveal } from '@/components/animation/ImageReveal';
-import { ServiceArt } from '@/components/art/ServiceArt';
+import { StockPhoto } from '@/components/common/StockPhoto';
+import type { StockKey } from '@/data/stock';
 import { VisualMedia } from '@/components/art/VisualMedia';
 import { EmberField } from '@/components/interactive/EmberField';
 import { getService, services, type Service } from '@/data/services';
@@ -35,7 +36,7 @@ function Hero({ s }: { s: Service }) {
   );
   const cta = (
     <div className="hero-fade mt-10 flex flex-wrap gap-4" style={{ ['--d' as string]: '0.6s' }}>
-      <CtaLink to={`/start-a-project?service=${s.slug}`}>Discuss your project</CtaLink>
+      <CtaLink to={`/contact?service=${s.slug}`}>Discuss your project</CtaLink>
     </div>
   );
 
@@ -44,7 +45,7 @@ function Hero({ s }: { s: Service }) {
       <section className="relative flex min-h-[92svh] items-end overflow-hidden bg-void">
         <div aria-hidden className="absolute inset-0">
           <Parallax speed={14} scale={[1.08, 1]} className="h-full w-full">
-            <ServiceArt art={s.art} className="h-full w-full opacity-80" />
+            <StockPhoto name={s.slug as StockKey} ratio="16:9" sizes="100vw" priority className="h-full w-full" />
           </Parallax>
           <div className="absolute inset-0 bg-gradient-to-t from-void via-void/70 to-void/10" />
         </div>
@@ -69,7 +70,7 @@ function Hero({ s }: { s: Service }) {
           <div className="mt-6 max-w-4xl">{title}</div>
           <div className="mt-14 grid items-end gap-10 md:grid-cols-12">
             <div className="aspect-[4/3] overflow-hidden rounded-[1rem] border border-white/10 md:col-span-5">
-              <ServiceArt art={s.art} className="h-full w-full" />
+              <StockPhoto name={s.slug as StockKey} ratio="4:3" sizes="(min-width:768px) 40vw, 100vw" priority className="h-full w-full" />
             </div>
             <div className="md:col-span-6 md:col-start-7">
               <p className="hero-fade t-lead text-soft" style={{ ['--d' as string]: '0.45s' }}>{s.intro}</p>
@@ -91,7 +92,7 @@ function Hero({ s }: { s: Service }) {
         </div>
         <div className="shell mt-16 md:mt-24">
           <ImageReveal className="aspect-[21/9] rounded-[1.25rem] border border-white/10 max-md:aspect-[4/3]">
-            <ServiceArt art={s.art} className="h-full w-full" />
+            <StockPhoto name={s.slug as StockKey} ratio="21:9" sizes="100vw" className="h-full w-full" />
           </ImageReveal>
         </div>
       </section>
@@ -109,7 +110,7 @@ function Hero({ s }: { s: Service }) {
         </div>
         <div className="lg:col-span-6">
           <Parallax speed={-10} className="aspect-[4/5] overflow-hidden rounded-[1.5rem] border border-white/10 max-lg:aspect-[4/3]">
-            <ServiceArt art={s.art} className="h-full w-full" />
+            <StockPhoto name={s.slug as StockKey} ratio="4:5" sizes="(min-width:1024px) 50vw, 100vw" priority className="h-full w-full" />
           </Parallax>
         </div>
       </div>
@@ -284,7 +285,7 @@ function Closing({ s }: { s: Service }) {
           <MaskReveal className="display t-lg lg:col-span-7" lines={['Ready when', 'you are.']} />
           <div className="lg:col-span-5">
             <p className="text-soft">Tell us about your goals and we will reply with honest thoughts on how {s.name.toLowerCase()} could help.</p>
-            <CtaLink to={`/start-a-project?service=${s.slug}`} className="mt-8">Start a project</CtaLink>
+            <CtaLink to={`/contact?service=${s.slug}`} className="mt-8">Start a project</CtaLink>
           </div>
         </div>
       </section>

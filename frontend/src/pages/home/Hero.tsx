@@ -45,7 +45,7 @@ export function Hero() {
 
       {/* Static composition: always present for first paint, no-JS and reduced motion */}
       <div aria-hidden className={cn('absolute inset-0 transition-opacity duration-[1.4s]', ready && 'opacity-0')}>
-        <SparkMark className="absolute right-[14%] top-1/2 h-[min(46vh,30rem)] w-auto -translate-y-1/2 drop-shadow-[0_40px_90px_rgba(255,128,13,0.45)] max-lg:right-1/2 max-lg:top-[22%] max-lg:h-[17vh] max-lg:translate-x-1/2" />
+        <SparkMark className="absolute right-[12%] top-1/2 h-[min(40vh,26rem)] w-auto -translate-y-1/2 drop-shadow-[0_40px_90px_rgba(255,128,13,0.45)] max-lg:right-1/2 max-lg:top-[22%] max-lg:h-[17vh] max-lg:translate-x-1/2" />
       </div>
 
       {show3d && (
@@ -60,8 +60,8 @@ export function Hero() {
         <p className="eyebrow hero-fade mb-7 flex items-center gap-3 text-spark" style={{ ['--d' as string]: '0.05s' }}>
           <span aria-hidden className="h-px w-8 bg-current" /> Creative &amp; digital studio
         </p>
-        <h1 id="hero-title" className="display hero-rise t-hero max-w-[11ch]">
-          <Lines lines={["We create", "what's next."]} accent={[1]} />
+        <h1 id="hero-title" className="display hero-rise max-w-[min(100%,46rem)] text-[clamp(2.4rem,1rem+4.2vw,5.2rem)] lg:max-w-[50%]">
+          <Lines lines={['We create', "what's", 'next.']} accent={[1, 2]} />
         </h1>
         <p className="hero-fade t-lead mt-8 max-w-[34ch] text-soft" style={{ ['--d' as string]: '0.55s' }}>
           Creative thinking. Thoughtful design. Extraordinary digital experiences.

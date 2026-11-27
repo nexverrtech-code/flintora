@@ -137,15 +137,18 @@ function Embers({ count }: { count: number }) {
   );
 }
 
-function Rig({ children, offsetX }: { children: React.ReactNode; offsetX: number }) {
+/** Desktop: the mark sits in the right third of the viewport, measured each frame from the real
+ *  visible width, so it never overlaps the headline on the left. Phones: centred above the copy. */
+function Rig({ children, compact }: { children: React.ReactNode; compact: boolean }) {
   const ref = useRef<THREE.Group>(null);
-  const { pointer } = useThree();
+  const { pointer, viewport } = useThree();
   const smooth = useRef(new THREE.Vector2());
   useFrame(() => {
     smooth.current.lerp(pointer, 0.04);
     if (!ref.current) return;
     ref.current.rotation.y = smooth.current.x * 0.22;
     ref.current.rotation.x = -smooth.current.y * 0.14;
+    const offsetX = compact ? 0 : viewport.width * 0.3;
     ref.current.position.x = offsetX + smooth.current.x * 0.25;
   });
   return <group ref={ref}>{children}</group>;
@@ -168,8 +171,8 @@ export default function HeroScene({ compact = false }: { compact?: boolean }) {
       <directionalLight position={[4, 5, 6]} intensity={1.1} color="#ffe2c4" />
       <directionalLight position={[-5, -2, -3]} intensity={2.4} color="#ff800d" />
       <pointLight position={[0, 0, 2.2]} intensity={9} distance={9} color="#ff800d" />
-      <Rig offsetX={compact ? 0 : 2.6}>
-        <group position={compact ? [0, 2.15, 0] : [0, 0, 0]} scale={compact ? 0.5 : 1}>
+      <Rig compact={compact}>
+        <group position={compact ? [0, 2.15, 0] : [0, 0, 0]} scale={compact ? 0.5 : 0.82}>
           <SparkF />
           {FRAGMENTS.map((f) => (
             <Fragment key={f.seed} p={f.p} s={f.s} seed={f.seed} count={compact ? 5 : 9} />

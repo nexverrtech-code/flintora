@@ -1,6 +1,6 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { Link } from 'react-router';
-import { ArrowUpRight } from 'lucide-react';
+import { Briefcase, Building2, Cpu, Factory, GraduationCap, HandHeart, HardHat, HeartPulse, Shirt, ShoppingBag, Truck, UtensilsCrossed, type LucideIcon } from 'lucide-react';
 import { Seo } from '@/components/common/Seo';
 import { Hero } from './Hero';
 import { MaskReveal } from '@/components/animation/MaskReveal';
@@ -11,12 +11,12 @@ import { getGsap, prefersReducedMotion } from '@/components/animation/gsap';
 import { Eyebrow } from '@/components/common/Eyebrow';
 import { CtaLink } from '@/components/common/CtaLink';
 import { Picture } from '@/components/common/Picture';
-import { ServiceArt } from '@/components/art/ServiceArt';
+import { Faq } from '@/components/common/Faq';
+import { TechOrbit } from '@/components/interactive/TechOrbit';
+import { faqSchema } from '@/utils/schema';
 import { EmberField } from '@/components/interactive/EmberField';
-import { services } from '@/data/services';
 import { stages } from '@/data/process';
-import { company, values } from '@/data/company';
-import { cn } from '@/utils/cn';
+import { company, industries, values } from '@/data/company';
 
 /* ---------- 03 Brand introduction ---------- */
 function Philosophy() {
@@ -78,64 +78,105 @@ function Philosophy() {
   );
 }
 
-/* ---------- 04 Capabilities: interactive editorial index ---------- */
-function Capabilities() {
-  const [active, setActive] = useState(0);
-  const s = services[active];
+/* ---------- 02 Industries ---------- */
+const industryIcons: Record<string, LucideIcon> = {
+  'Retail and D2C': ShoppingBag,
+  'Fashion and apparel': Shirt,
+  'Food and hospitality': UtensilsCrossed,
+  'Real estate': Building2,
+  Construction: HardHat,
+  Manufacturing: Factory,
+  Education: GraduationCap,
+  'Healthcare and wellness': HeartPulse,
+  'Technology and startups': Cpu,
+  'Professional services': Briefcase,
+  Logistics: Truck,
+  'Non-profits': HandHeart,
+};
+
+function Industries() {
   return (
-    <section aria-labelledby="cap-title" className="section-y relative bg-void">
+    <section aria-labelledby="industries-title" className="section-y bg-void">
       <div className="shell">
-        <div className="flex flex-wrap items-end justify-between gap-8">
-          <div className="min-w-[min(100%,34rem)] flex-1">
-            <Eyebrow n="02">Capabilities</Eyebrow>
-            <MaskReveal id="cap-title" className="display t-xl mt-6" lines={['Creativity,', 'with purpose.']} />
-          </div>
-          <Reveal className="max-w-sm text-soft">
-            <p>Nine disciplines, one studio. Each starts from strategy and ends with something you can see, use and measure.</p>
+        <div className="mx-auto max-w-3xl text-center">
+          <Eyebrow n="02" className="justify-center">Industries</Eyebrow>
+          <MaskReveal id="industries-title" className="display t-lg mt-6" lines={['Branding and digital', 'for every industry.']} accent={[1]} />
+          <Reveal as="p" className="mx-auto mt-6 max-w-[52ch] text-soft">
+            From a neighbourhood restaurant to a growing manufacturer, we shape brands, websites and campaigns that fit how each industry really sells.
           </Reveal>
         </div>
-
-        <div className="mt-16 grid gap-10 lg:mt-24 lg:grid-cols-12">
-          <ol className="lg:col-span-7" onMouseLeave={() => undefined}>
-            {services.map((svc, i) => (
-              <li key={svc.slug} className="border-t border-white/10 last:border-b">
+        <Reveal as="ul" className="mt-12 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4 lg:gap-4" stagger={0.04}>
+          {industries.map((name) => {
+            const Icon = industryIcons[name] ?? Briefcase;
+            return (
+              <li key={name}>
                 <Link
-                  to={`/capabilities/${svc.slug}`}
-                  onMouseEnter={() => setActive(i)}
-                  onFocus={() => setActive(i)}
-                  className="group grid grid-cols-[2.5rem_1fr_auto] items-baseline gap-3 py-3.5 md:grid-cols-[3rem_1fr_auto] md:gap-4 md:py-6"
+                  to={`/contact?industry=${encodeURIComponent(name)}`}
+                  className="group flex h-full flex-col items-center justify-center gap-4 rounded-2xl border border-white/10 bg-surface/50 px-4 py-7 text-center transition-[transform,border-color,background-color] duration-500 ease-[var(--ease-silk)] hover:-translate-y-1 hover:border-spark/50 hover:bg-surface md:py-10"
                 >
-                  <span className={cn('font-display text-sm transition-colors', active === i ? 'text-spark' : 'text-muted')}>{svc.n}</span>
-                  <span>
-                    <span className={cn('block text-[clamp(1.3rem,1rem+1.6vw,2.3rem)] font-semibold leading-tight tracking-[-0.01em] transition-[color,transform] duration-500 ease-[var(--ease-silk)] group-hover:translate-x-2', active === i ? 'text-white' : 'text-white/55')}>
-                      {svc.name}
-                    </span>
-                    <span className="mt-2 hidden max-w-[46ch] text-[0.92rem] text-muted md:block lg:hidden">{svc.short}</span>
-                  </span>
-                  <ArrowUpRight aria-hidden className={cn('size-5 transition-all duration-500', active === i ? 'text-spark opacity-100' : 'opacity-30')} />
+                  <Icon aria-hidden strokeWidth={1.5} className="size-7 text-soft transition-colors group-hover:text-spark md:size-8" />
+                  <span className="text-[0.92rem] font-semibold leading-snug md:text-base">{name}</span>
                 </Link>
               </li>
+            );
+          })}
+        </Reveal>
+      </div>
+    </section>
+  );
+}
+
+/* ---------- 03 Tech stack: the FLINTORA solar system ---------- */
+function TechStack() {
+  return (
+    <section aria-labelledby="stack-title" className="section-y relative overflow-hidden bg-charcoal">
+      <div className="shell grid items-center gap-12 lg:grid-cols-12">
+        <div className="lg:col-span-5">
+          <Eyebrow n="03">Our tech stack</Eyebrow>
+          <MaskReveal id="stack-title" className="display t-lg mt-6" lines={['Tools that', 'power the', 'spark.']} accent={[2]} />
+          <Reveal as="p" className="mt-6 max-w-md text-soft">
+            We design, build and grow with a modern, proven stack. Design and production at the core, engineering around it, and the growth platforms that put the work in front of people.
+          </Reveal>
+          <Reveal as="ul" className="mt-8 space-y-3 text-[0.95rem]" stagger={0.06}>
+            {[
+              ['Design and production', 'Figma, Blender, Framer, DaVinci Resolve'],
+              ['Build', 'React, Next.js, TypeScript, Tailwind CSS, WordPress, Shopify'],
+              ['Growth', 'Google Ads, Meta, Google Analytics, Search Console, Semrush, HubSpot'],
+            ].map(([k, v]) => (
+              <li key={k} className="border-t border-white/10 pt-3">
+                <span className="font-semibold text-white">{k}</span>
+                <span className="block text-muted">{v}</span>
+              </li>
             ))}
-          </ol>
-          <div className="hidden lg:col-span-5 lg:block">
-            <div className="sticky top-[calc(var(--header-h)+2rem)]">
-              <div className="relative aspect-[4/3] overflow-hidden rounded-[1.25rem] border border-white/10">
-                {services.map((svc, i) => (
-                  <div key={svc.slug} className={cn('absolute inset-0 transition-[opacity,transform] duration-700 ease-[var(--ease-silk)]', i === active ? 'scale-100 opacity-100' : 'scale-105 opacity-0')}>
-                    <ServiceArt art={svc.art} className="h-full w-full" />
-                  </div>
-                ))}
-              </div>
-              <p className="mt-6 text-soft" aria-live="polite">{s.short}</p>
-              <Link to={`/capabilities/${s.slug}`} className="link-line mt-4 inline-flex items-center gap-2 font-semibold text-spark">
-                Explore {s.name} <ArrowUpRight aria-hidden className="size-4" />
-              </Link>
-              <p className="mt-10 text-sm text-muted">
-                Prefer to explore visually? <Link to="/creative-universe" className="link-line text-white">Enter the Creative Universe</Link>
-              </p>
-            </div>
-          </div>
+          </Reveal>
+          <CtaLink to="/contact" className="mt-10">Get started</CtaLink>
         </div>
+        <div className="lg:col-span-7">
+          <TechOrbit />
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ---------- Questions people ask (answer engine friendly) ---------- */
+const homeFaqs = [
+  { q: 'What does FLINTORA do?', a: 'FLINTORA is a creative and digital studio. We create brand identities, design and build websites and digital products, and run digital marketing, SEO, content, photography and video, and business automation.' },
+  { q: 'Which industries do you work with?', a: 'Retail and D2C, fashion, food and hospitality, real estate, construction, manufacturing, education, healthcare, technology, professional services, logistics and non-profits, among others.' },
+  { q: 'How long does a website or brand identity take?', a: 'A focused brand identity usually takes six to ten weeks, and a custom website eight to fourteen. We agree a timeline with you before any work begins.' },
+  { q: 'Do you only build websites, or also market them?', a: 'Both. We can design and build your site, then help it get found and grow through SEO, paid campaigns, social media and content.' },
+  { q: 'How do I start a project with FLINTORA?', a: 'Use the form on our Contact page. Tell us what you want to achieve and we will get back to you to talk it through.' },
+];
+
+function HomeFaq() {
+  return (
+    <section aria-labelledby="faq-title" className="section-y bg-void">
+      <div className="shell grid gap-10 lg:grid-cols-12">
+        <div className="lg:col-span-4">
+          <Eyebrow>FAQ</Eyebrow>
+          <MaskReveal id="faq-title" className="display t-md mt-6" lines={['Questions,', 'answered.']} />
+        </div>
+        <Faq items={homeFaqs} className="lg:col-span-7 lg:col-start-6" />
       </div>
     </section>
   );
@@ -161,7 +202,7 @@ function ProcessTimeline() {
       <div className="shell grid gap-14 lg:grid-cols-12">
         <div className="lg:col-span-5">
           <div className="lg:sticky lg:top-[calc(var(--header-h)+3rem)]">
-            <Eyebrow n="03">Process</Eyebrow>
+            <Eyebrow n="04">Process</Eyebrow>
             <MaskReveal id="process-title" className="display mt-6 text-[clamp(2rem,1rem+3.2vw,4rem)]" lines={['Great work', 'comes from', 'great', 'thinking.']} accent={[3]} />
             <p className="mt-8 max-w-sm text-soft">Eight stages, from the first conversation to a confident handover. You always know where we are and what comes next.</p>
             <CtaLink to="/process" variant="ghost" className="mt-10">Our process in detail</CtaLink>
@@ -199,7 +240,7 @@ function AboutPreview() {
           <p className="mt-4 text-[0.8rem] text-muted max-md:hidden">Our own identity in use. From the FLINTORA brand book.</p>
         </div>
         <div className="lg:col-span-5 lg:col-start-8">
-          <Eyebrow n="04">About</Eyebrow>
+          <Eyebrow n="05">About</Eyebrow>
           <MaskReveal id="about-title" className="display t-lg mt-6" lines={['Creativity with', 'a clear purpose.']} />
           <p className="mt-8 text-soft">{company.summary}</p>
           <Reveal as="ul" className="mt-10 space-y-5 border-t border-white/10 pt-8 max-md:hidden" stagger={0.1}>
@@ -229,7 +270,7 @@ function FinalCta() {
         <Reveal>
           <p className="t-lead mx-auto mt-8 max-w-[36ch] text-soft">Let&rsquo;s turn your next idea into something extraordinary.</p>
           <div className="mt-12 flex justify-center">
-            <CtaLink to="/start-a-project" size="lg">Start a Conversation</CtaLink>
+            <CtaLink to="/contact" size="lg">Start a Conversation</CtaLink>
           </div>
         </Reveal>
       </div>
@@ -244,13 +285,16 @@ export default function HomePage() {
         path="/"
         title="Home"
         description="FLINTORA is a creative and digital studio: brand identity, websites, UI/UX, digital marketing, SEO, content, photography and automation. Where Ideas Spark."
+        schema={[faqSchema(homeFaqs)]}
       />
       <Hero />
       <Philosophy />
-      <Capabilities />
+      <Industries />
+      <TechStack />
       {/* Selected Works is hidden on the home page. To restore it: import { SelectedWorks } from './SelectedWorks' and render <SelectedWorks /> here. */}
       <ProcessTimeline />
       <AboutPreview />
+      <HomeFaq />
       <FinalCta />
     </>
   );

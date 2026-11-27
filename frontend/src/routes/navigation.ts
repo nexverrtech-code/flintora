@@ -1,6 +1,6 @@
 export const primaryNav = [
+  { label: 'Home', to: '/' },
   { label: 'Work', to: '/work' },
-  { label: 'Capabilities', to: '/capabilities' },
   { label: 'Process', to: '/process' },
   { label: 'About', to: '/about' },
   { label: 'Contact', to: '/contact' },

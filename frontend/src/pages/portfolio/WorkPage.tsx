@@ -129,7 +129,7 @@ export default function WorkPage() {
           </div>
           <div className="lg:col-span-4 lg:col-start-9">
             <p className="text-ink/70">We take on a limited number of projects at a time, so each one gets real attention.</p>
-            <CtaLink to="/start-a-project" variant="dark" className="mt-8">Start a project</CtaLink>
+            <CtaLink to="/contact" variant="dark" className="mt-8">Start a project</CtaLink>
           </div>
         </div>
       </section>

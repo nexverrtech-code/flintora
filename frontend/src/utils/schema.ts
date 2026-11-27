@@ -1,5 +1,5 @@
 // Schema.org helpers. Only facts that exist in the data files are emitted; empty values are dropped.
-import { company, absoluteUrl, socialLinks, hasAddress } from '@/data/company';
+import { company, absoluteUrl, socialLinks, hasAddress, industries } from '@/data/company';
 import { services, type Service } from '@/data/services';
 import type { Project } from '@/data/projects';
 import type { TeamMember } from '@/data/team';
@@ -27,7 +27,9 @@ export const SITE_ID = `${company.siteUrl}/#website`;
 export const organizationSchema = (): Json =>
   prune({
     '@context': 'https://schema.org',
-    '@type': 'Organization',
+    // ProfessionalService is a LocalBusiness and an Organization: it lets Google connect the site
+    // to a Google Business Profile (matching name, address and phone) for local results.
+    '@type': 'ProfessionalService',
     '@id': ORG_ID,
     name: company.name,
     alternateName: company.displayName,
@@ -47,8 +49,16 @@ export const organizationSchema = (): Json =>
           addressCountry: company.address.country,
         }
       : undefined,
-    sameAs: socialLinks.map((s) => s.url),
-    knowsAbout: services.map((s) => s.name),
+    image: absoluteUrl('/images/og/flintora-og.jpg'),
+    geo:
+      company.local.lat && company.local.lng
+        ? { '@type': 'GeoCoordinates', latitude: Number(company.local.lat), longitude: Number(company.local.lng) }
+        : undefined,
+    hasMap: company.local.mapsUrl,
+    openingHours: company.local.openingHours,
+    areaServed: company.local.serviceArea.map((name) => ({ '@type': 'Place', name })),
+    sameAs: [...socialLinks.map((s) => s.url), company.local.googleBusinessUrl].filter(Boolean),
+    knowsAbout: [...services.map((s) => s.name), ...industries.map((i) => `Marketing and design for ${i.toLowerCase()}`)],
     makesOffer: services.map((s) => ({
       '@type': 'Offer',
       itemOffered: { '@type': 'Service', name: s.name, url: absoluteUrl(`/capabilities/${s.slug}`) },
@@ -98,6 +108,8 @@ export const serviceSchema = (s: Service): Json =>
     description: s.metaDescription,
     url: absoluteUrl(`/capabilities/${s.slug}`),
     provider: { '@id': ORG_ID },
+    areaServed: company.local.serviceArea.map((name) => ({ '@type': 'Place', name })),
+    audience: { '@type': 'BusinessAudience', name: industries.join(', ') },
     hasOfferCatalog: {
       '@type': 'OfferCatalog',
       name: `${s.name} deliverables`,

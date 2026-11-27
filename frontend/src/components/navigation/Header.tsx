@@ -36,7 +36,7 @@ export function Header() {
     setOpen(false);
   }, [pathname]);
 
-  // Order: Work, Capabilities, Process, About, Creative Universe, Contact
+  // Order: Home, Work, Process, About, Creative Universe, Contact
   const desktopNav = [...primaryNav.slice(0, 4), ...toolsNav, primaryNav[4]];
 
   return (
@@ -55,13 +55,13 @@ export function Header() {
             <ul className="flex items-center gap-8 text-[0.9rem]">
               {desktopNav.map((item) => (
                 <li key={item.to}>
-                  <NavLink to={item.to} className={linkCls}>{item.label}</NavLink>
+                  <NavLink to={item.to} end={item.to === '/'} className={linkCls}>{item.label}</NavLink>
                 </li>
               ))}
             </ul>
           </nav>
           <div className="hidden lg:block">
-            <CtaLink to="/start-a-project" size="sm">Start a project</CtaLink>
+            <CtaLink to="/contact" size="sm">Start a project</CtaLink>
           </div>
           <button
             type="button"

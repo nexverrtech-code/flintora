@@ -64,6 +64,7 @@ export function MobileDrawer({ open, onClose }: { open: boolean; onClose: () => 
                   >
                     <NavLink
                       to={item.to}
+                      end={item.to === '/'}
                       onClick={onClose}
                       className={({ isActive }) => cn('display flex items-baseline justify-between py-4 text-[2.1rem] xs:text-[2.5rem]', isActive && 'text-spark')}
                     >
@@ -84,7 +85,7 @@ export function MobileDrawer({ open, onClose }: { open: boolean; onClose: () => 
               </ul>
             </nav>
             <div className="mt-10">
-              <CtaLink to="/start-a-project" magnetic={false}>Start a project</CtaLink>
+              <CtaLink to="/contact" magnetic={false}>Start a project</CtaLink>
             </div>
             <div className="mt-auto pt-12 text-sm text-muted">
               {company.contact.email && <a className="block text-soft" href={`mailto:${company.contact.email}`}>{company.contact.email}</a>}

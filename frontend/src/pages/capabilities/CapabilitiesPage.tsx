@@ -9,7 +9,8 @@ import { Lines } from '@/components/common/Display';
 import { Faq } from '@/components/common/Faq';
 import { MaskReveal } from '@/components/animation/MaskReveal';
 import { Reveal } from '@/components/animation/Reveal';
-import { ServiceArt } from '@/components/art/ServiceArt';
+import { StockPhoto } from '@/components/common/StockPhoto';
+import type { StockKey } from '@/data/stock';
 import { services } from '@/data/services';
 import { useFinePointer, useReducedMotionPref } from '@/hooks/useMediaQuery';
 import { faqSchema } from '@/utils/schema';
@@ -79,7 +80,7 @@ function ServiceIndex() {
           <div className={cn('aspect-[4/3] overflow-hidden rounded-xl border border-white/10 shadow-[0_30px_80px_-20px_rgba(0,0,0,0.9)] transition-[opacity,transform] duration-500 ease-[var(--ease-silk)]', hover === null ? 'scale-90 opacity-0' : 'scale-100 opacity-100')}>
             {services.map((s, i) => (
               <div key={s.slug} className={cn('absolute inset-0 transition-opacity duration-300', hover === i ? 'opacity-100' : 'opacity-0')}>
-                <ServiceArt art={s.art} className="h-full w-full" />
+                <StockPhoto name={s.slug as StockKey} ratio="4:3" sizes="22rem" tint={false} className="h-full w-full" />
               </div>
             ))}
           </div>

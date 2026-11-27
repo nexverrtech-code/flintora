@@ -24,7 +24,6 @@ export const routes: RouteDef[] = [
   def('/creative-universe', () => import('@/pages/creative-universe/CreativeUniversePage')),
   def('/process', () => import('@/pages/process/ProcessPage')),
   def('/contact', () => import('@/pages/contact/ContactPage')),
-  def('/start-a-project', () => import('@/pages/start-project/StartProjectPage')),
   def('/privacy-policy', () => import('@/pages/legal/PrivacyPage')),
   def('/terms', () => import('@/pages/legal/TermsPage')),
 ];
@@ -48,7 +47,6 @@ export const staticPaths = [
   '/creative-universe',
   '/process',
   '/contact',
-  '/start-a-project',
   '/privacy-policy',
   '/terms',
 ];

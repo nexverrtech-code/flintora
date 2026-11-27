@@ -7,6 +7,8 @@ import { Lines } from '@/components/common/Display';
 import { MaskReveal } from '@/components/animation/MaskReveal';
 import { Reveal } from '@/components/animation/Reveal';
 import { Parallax } from '@/components/animation/Parallax';
+import { ImageReveal } from '@/components/animation/ImageReveal';
+import { StockPhoto } from '@/components/common/StockPhoto';
 import { EmberField } from '@/components/interactive/EmberField';
 import { company, values } from '@/data/company';
 import { team } from '@/data/team';
@@ -59,6 +61,15 @@ export default function AboutPage() {
         </div>
       </section>
 
+      {/* Image band */}
+      <section className="bg-paper pb-[clamp(3rem,2rem+4vw,6rem)]">
+        <div className="shell">
+          <ImageReveal className="aspect-[16/9] rounded-[1.25rem] md:aspect-[21/9]">
+            <StockPhoto name="about" ratio="21:9" sizes="(min-width:1360px) 1360px, 100vw" className="h-full w-full" />
+          </ImageReveal>
+        </div>
+      </section>
+
       {/* Vision and mission */}
       <section className="relative overflow-hidden bg-charcoal">
         <div className="shell section-y grid gap-14 md:grid-cols-2 md:gap-10">
@@ -98,7 +109,7 @@ export default function AboutPage() {
         <div className="shell relative py-[clamp(3.5rem,2rem+8vw,10rem)]">
           <MaskReveal className="display t-xl max-w-[13ch]" lines={['Let us build', 'something', 'together.']} accent={[2]} />
           <div className="mt-10 flex flex-wrap gap-4">
-            <CtaLink to="/start-a-project" size="lg">Start a project</CtaLink>
+            <CtaLink to="/contact" size="lg">Start a project</CtaLink>
             <CtaLink to="/process" variant="ghost" size="lg">How we work</CtaLink>
           </div>
         </div>
